@@ -1,0 +1,36 @@
+dist: trusty
+sudo: required
+
+services: docker
+
+language: bash
+
+branches:
+  only:
+    - master
+
+before_script:
+  - env | sort
+  - name="erpnext"
+  - image="monogramm/docker-erpnext:travis-${VERSION}${VARIANT:+-$VARIANT}"
+  - dir="images/${VERSION}/${VARIANT}"
+
+script:
+  - travis_wait docker build -t "$image" "$dir"
+
+after_script:
+  - docker images
+  - docker run --name "$name" -d "$image"
+  - docker ps
+  - docker logs "$name"
+
+notifications:
+  email: false
+
+env: # Environments
+    - VERSION=10.1 VARIANT=alpine
+    - VERSION=10.1 VARIANT=stretch-slim
+    - VERSION=10.1 VARIANT=stretch
+    - VERSION=11.1 VARIANT=alpine
+    - VERSION=11.1 VARIANT=stretch-slim
+    - VERSION=11.1 VARIANT=stretch
