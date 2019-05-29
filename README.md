@@ -4,7 +4,7 @@
 
 [![License: AGPL v3][uri_license_image]][uri_license]
 [![Build Status](https://travis-ci.org/Monogramm/docker-erpnext.svg)](https://travis-ci.org/Monogramm/docker-erpnext)
-[![Docker Automated buid](https://img.shields.io/docker/build/monogramm/docker-erpnext.svg)](https://hub.docker.com/r/monogramm/docker-erpnext/)
+[![Docker Automated buid](https://img.shields.io/docker/cloud/monogramm/docker-erpnext.svg)](https://hub.docker.com/r/monogramm/docker-erpnext/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/monogramm/docker-erpnext.svg)](https://hub.docker.com/r/monogramm/docker-erpnext/)
 [![](https://images.microbadger.com/badges/version/monogramm/docker-erpnext.svg)](https://microbadger.com/images/monogramm/docker-erpnext)
 [![](https://images.microbadger.com/badges/image/monogramm/docker-erpnext.svg)](https://microbadger.com/images/monogramm/docker-erpnext)
