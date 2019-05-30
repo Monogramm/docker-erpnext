@@ -1,4 +1,4 @@
-FROM monogramm/docker-frappe:stretch
+FROM monogramm/docker-frappe:10.1.81-stretch
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
