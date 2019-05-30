@@ -56,6 +56,7 @@ for latest in "${latestsFrappe[@]}"; do
 			sed -ri -e '
 				s/%%VARIANT%%/'"$variant"'/g;
 				s/%%VERSION%%/'"$latest"'/g;
+				s/%%FRAPPE_VERSION%%/'"$version"'/g;
 			' "$dir/Dockerfile"
 
 			# Copy the shell scripts

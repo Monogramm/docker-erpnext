@@ -1,4 +1,4 @@
-FROM monogramm/docker-frappe:%%VERSION%%-%%VARIANT%%
+FROM monogramm/docker-frappe:%%FRAPPE_VERSION%%-%%VARIANT%%
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
