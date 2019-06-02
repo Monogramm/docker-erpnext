@@ -13,7 +13,7 @@
 
 Docker image for ERPNext.
 
-This image is directly inspired by [BizzoTech/docker-erpnext](https://github.com/BizzoTech/docker-erpnext) and [pipech/erpnext-docker-debian](https://github.com/pipech/erpnext-docker-debian) but adds an alpine variation, like provided by [donysukardi/docker-erpnext](https://github.com/donysukardi/docker-erpnext).
+This image is directly inspired by [BizzoTech/docker-erpnext](https://github.com/BizzoTech/docker-erpnext) and [pipech/erpnext-docker-debian](https://github.com/pipech/erpnext-docker-debian) but adds an alpine variation, like provided by [donysukardi/docker-frappe](https://github.com/donysukardi/docker-frappe).
 
 :construction: **This image is still in development!**
 
