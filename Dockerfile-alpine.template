@@ -5,6 +5,7 @@ LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 ENV ERPNEXT_BRANCH=v%%VERSION%%
 
 RUN set -ex; \
+    bench new-site localhost; \
     bench get-app erpnext https://github.com/frappe/erpnext --branch $ERPNEXT_BRANCH; \
     bench --site localhost install-app erpnext; \
     rm -rf /home/$FRAPPE_USER/frappe-bench/apps/erpnext/.git
