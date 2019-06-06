@@ -28,7 +28,7 @@ function version_greater_or_equal() {
 min_version=10.1
 
 dockerRepo="monogramm/docker-frappe"
-latestsFrappe=( $( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
+latests=( $( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV ) 10.1.81 )
 
@@ -40,7 +40,7 @@ find ./images -maxdepth 1 -type d -regextype sed -regex '\./images/[[:digit:]]\+
 
 echo "update docker images"
 travisEnv=
-for latest in "${latestsFrappe[@]}"; do
+for latest in "${latests[@]}"; do
 	version=$(echo "$latest" | cut -d. -f1-2)
 
 	# Only add versions >= "$min_version"
