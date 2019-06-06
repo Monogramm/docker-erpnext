@@ -19,7 +19,7 @@ script:
   - docker images
   - travis_retry docker-compose up -d && sleep 60
   - docker-compose ps
-  - travis_wait echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 600
+  - echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 500
   - docker-compose ps
   - docker-compose logs
   - docker-compose ps "erpnextdb" | grep "Up"
