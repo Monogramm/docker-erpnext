@@ -7,6 +7,12 @@ declare -A base=(
 	[alpine]='alpine'
 )
 
+declare -A compose=(
+	[stretch]='mariadb'
+	[stretch-slim]='mariadb'
+	[alpine]='postgres'
+)
+
 variants=(
 	stretch
 	stretch-slim
@@ -22,7 +28,7 @@ function version_greater_or_equal() {
 min_version=10.1
 
 dockerRepo="monogramm/docker-frappe"
-latestsFrappe=( $( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
+latests=( $( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV ) 10.1.81 )
 
@@ -34,7 +40,7 @@ find ./images -maxdepth 1 -type d -regextype sed -regex '\./images/[[:digit:]]\+
 
 echo "update docker images"
 travisEnv=
-for latest in "${latestsFrappe[@]}"; do
+for latest in "${latests[@]}"; do
 	version=$(echo "$latest" | cut -d. -f1-2)
 
 	# Only add versions >= "$min_version"
@@ -59,13 +65,17 @@ for latest in "${latestsFrappe[@]}"; do
 				s/%%FRAPPE_VERSION%%/'"$version"'/g;
 			' "$dir/Dockerfile"
 
-			# Copy the shell scripts
-			#for name in entrypoint; do
-			#	cp "docker-$name.sh" "$dir/$name.sh"
-			#	chmod 755 "$dir/$name.sh"
-			#done
+			# Copy the docker files
+			for name in nginx.conf .env; do
+				cp "docker-$name" "$dir/$name"
+				chmod 755 "$dir/$name"
+				sed -i \
+					-e 's/{{ NGINX_SERVER_NAME }}/localhost/g' \
+				"$dir/$name"
+			done
 
 			cp ".dockerignore" "$dir/.dockerignore"
+			cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
 
 			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 
