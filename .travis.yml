@@ -23,7 +23,8 @@ script:
   - docker-compose ps
   - docker-compose logs
   - docker-compose ps "erpnextdb" | grep "Up"
-  - docker-compose ps "erpnext" | grep "Up"
+  - docker-compose ps "erpnext_app" | grep "Up"
+  - docker-compose ps "erpnext_web" | grep "Up"
 
 notifications:
   email: false
