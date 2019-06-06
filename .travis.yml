@@ -11,18 +11,17 @@ branches:
 
 before_script:
   - env | sort
-  - name="erpnext"
-  - image="monogramm/docker-erpnext:travis-${VERSION}${VARIANT:+-$VARIANT}"
   - dir="images/${VERSION}/${VARIANT}"
 
 script:
-  - docker build -t "$image" "$dir"
-
-after_script:
+  - cd "$dir"
+  - docker-compose build
   - docker images
-  - docker run --name "$name" -d "$image"
-  - docker ps
-  - docker logs "$name"
+  - travis_retry docker-compose up -d && sleep 500
+  - sleep 500 && docker-compose ps
+  - docker-compose logs
+  - docker-compose ps "erpnextdb" | grep "Up"
+  - docker-compose ps "erpnext" | grep "Up"
 
 notifications:
   email: false
