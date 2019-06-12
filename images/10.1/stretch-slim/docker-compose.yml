@@ -24,9 +24,6 @@ services:
       - DB_TYPE=mariadb
       - DB_HOST=erpnextdb
       - DB_PORT=3306
-      #- DB_TYPE=postgres
-      #- DB_HOST=erpnext_postgres
-      #- DB_PORT=5432
       - DB_NAME=${ERPNEXT_DB_NAME}
       - DB_USER=${ERPNEXT_DB_USER}
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
