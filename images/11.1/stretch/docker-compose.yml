@@ -144,7 +144,7 @@ services:
     container_name: erpnext_redis_cache
     #restart: always
     volumes:
-      - ./services/erpnext/conf/redis-cache-conf:/etc/conf.d/redis.conf:ro
+      - ./services/erpnext/conf/redis_cache.conf:/etc/conf.d/redis.conf:ro
     command: ["redis-server","/etc/conf.d/redis.conf"]
 
   erpnext_redis_queue:

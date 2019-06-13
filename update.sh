@@ -66,7 +66,7 @@ for latest in "${latests[@]}"; do
 			' "$dir/Dockerfile"
 
 			# Copy the docker files
-			for name in nginx.conf .env; do
+			for name in redis_cache.conf nginx.conf .env; do
 				cp "docker-$name" "$dir/$name"
 				chmod 755 "$dir/$name"
 				sed -i \
