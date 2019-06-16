@@ -2,7 +2,7 @@ FROM monogramm/docker-frappe:develop-stretch-slim
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
-ENV ERPNEXT_BRANCH=vdevelop
+ENV ERPNEXT_BRANCH=develop
 
 RUN set -ex; \
     bench get-app erpnext https://github.com/frappe/erpnext --branch $ERPNEXT_BRANCH; \

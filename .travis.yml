@@ -36,6 +36,12 @@ matrix:
     - env: VERSION=10.x VARIANT=stretch
 
 env: # Environments
+    - VERSION=develop VARIANT=alpine
+    - VERSION=develop VARIANT=stretch-slim
+    - VERSION=develop VARIANT=stretch
+    - VERSION=10.x VARIANT=alpine
+    - VERSION=10.x VARIANT=stretch-slim
+    - VERSION=10.x VARIANT=stretch
     - VERSION=11.1 VARIANT=alpine
     - VERSION=11.1 VARIANT=stretch-slim
     - VERSION=11.1 VARIANT=stretch

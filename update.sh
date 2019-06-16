@@ -39,7 +39,8 @@ latestsBench=( 4.1 master )
 
 # Remove existing images
 echo "reset docker images"
-find ./images -maxdepth 1 -type d -regextype sed -regex '\./images/[[:digit:]]\+\.[[:digit:]]\+' -exec rm -r '{}' \;
+rm -rf ./images/
+mkdir -p ./images
 
 echo "update docker images"
 travisEnv=
