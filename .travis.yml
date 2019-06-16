@@ -29,10 +29,13 @@ script:
 notifications:
   email: false
 
+matrix:
+  allow_failures:
+    - env: VERSION=10.x VARIANT=alpine
+    - env: VERSION=10.x VARIANT=stretch-slim
+    - env: VERSION=10.x VARIANT=stretch
+
 env: # Environments
-    - VERSION=10.1 VARIANT=alpine
-    - VERSION=10.1 VARIANT=stretch-slim
-    - VERSION=10.1 VARIANT=stretch
     - VERSION=11.1 VARIANT=alpine
     - VERSION=11.1 VARIANT=stretch-slim
     - VERSION=11.1 VARIANT=stretch
