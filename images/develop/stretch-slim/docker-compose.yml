@@ -4,6 +4,7 @@ services:
   erpnext_app:
     build: ./
     container_name: erpnext_app
+    command: app
     #restart: always
     ports:
       - 8000:8000
@@ -12,8 +13,6 @@ services:
     links:
       - erpnextdb
     environment:
-      # Container setup
-      - NODE_TYPE=app
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
@@ -22,15 +21,13 @@ services:
       - ADMIN_PASSWORD=${ERPNEXT_ADMIN_PWD}
       - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
       # Database setup
-      - DB_TYPE=postgres
+      - DB_TYPE=mariadb
       - DB_HOST=erpnextdb
-      - DB_PORT=5432
+      - DB_PORT=3306
       - DB_NAME=${ERPNEXT_DB_NAME}
-      - DB_USER=${ERPNEXT_DB_USER}
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
       - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
       # Mail setup
-      - MAIL_MUTED=true
       - MAIL_HOST=${ERPNEXT_MAIL_HOST}
       - MAIL_PORT=587
       - MAIL_USE_SSL=tls
@@ -66,30 +63,26 @@ services:
       - erpnext_socketio
 
   erpnextdb:
-    image: postgres:10-alpine
+    image: mariadb:10
     container_name: erpnextdb
     restart: always
-    stdin_open: true
-    tty: true
-    command: postgres -c 'max_connections=500'
+    command: --character_set_client=utf8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --character-set-client-handshake=FALSE
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
-      # Bench will install DB so default postgres DB will not be used
-      - POSTGRES_DB=dummy
+      - MYSQL_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
+      # Following parameters must NOT be set and are only there for documentation (Bench will install DB)
+      #- MYSQL_DATABASE=${ERPNEXT_DB_NAME}
+      #- MYSQL_USER=${ERPNEXT_DB_USER}
+      #- MYSQL_PASSWORD=${ERPNEXT_DB_PWD}
     volumes:
-      - /srv/erpnext/db/data:/var/lib/postgresql/data
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
+      - /srv/erpnext/db:/var/lib/mysql
 
   erpnext_scheduler:
     build: ./
     container_name: erpnext_scheduler
+    command: scheduler
     #restart: always
     depends_on:
       - erpnext_app
-    environment:
-      - NODE_TYPE=scheduler
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -98,11 +91,10 @@ services:
   erpnext_worker_default:
     build: ./
     container_name: erpnext_worker_default
+    command: worker-default
     #restart: always
     depends_on:
       - erpnext_app
-    environment:
-      - NODE_TYPE=worker-default
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -111,11 +103,10 @@ services:
   erpnext_worker_long:
     build: ./
     container_name: erpnext_worker_long
+    command: worker-long
     #restart: always
     depends_on:
       - erpnext_app
-    environment:
-      - NODE_TYPE=worker-long
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -124,11 +115,10 @@ services:
   erpnext_worker_short:
     build: ./
     container_name: erpnext_worker_short
+    command: worker-short
     #restart: always
     depends_on:
       - erpnext_app
-    environment:
-      - NODE_TYPE=worker-short
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -143,8 +133,6 @@ services:
       - 3000:3000
     depends_on:
       - erpnext_app
-    environment:
-      - NODE_TYPE=node-socketio
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro

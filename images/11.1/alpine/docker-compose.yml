@@ -26,7 +26,6 @@ services:
       - DB_HOST=erpnextdb
       - DB_PORT=5432
       - DB_NAME=${ERPNEXT_DB_NAME}
-      - DB_USER=${ERPNEXT_DB_USER}
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
       - DB_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
       # Mail setup

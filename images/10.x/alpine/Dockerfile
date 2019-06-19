@@ -1,8 +1,8 @@
-FROM monogramm/docker-frappe:%%FRAPPE_VERSION%%-%%VARIANT%%
+FROM monogramm/docker-frappe:10-alpine
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
-ENV ERPNEXT_BRANCH=%%VERSION%%
+ENV ERPNEXT_BRANCH=v10.x.x
 
 RUN set -ex; \
     bench get-app erpnext https://github.com/frappe/erpnext --branch $ERPNEXT_BRANCH; \
