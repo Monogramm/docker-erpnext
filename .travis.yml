@@ -15,7 +15,7 @@ before_script:
 
 script:
   - cd "$dir"
-  - travis_retry docker-compose build
+  - travis_retry travis_wait 60 docker-compose build
   - docker images
   - travis_retry docker-compose up -d && sleep 60
   - docker-compose ps
