@@ -70,6 +70,13 @@ for latest in "${latests[@]}"; do
 					s/%%VERSION%%/'"$latest"'/g;
 					s/%%FRAPPE_VERSION%%/'"$major"'/g;
 				' "$dir/Dockerfile"
+			elif [ "$latest" = "10.x.x" ]; then
+				# FIXME https://github.com/frappe/frappe/issues/7737
+				sed -ri -e '
+					s/%%VARIANT%%/'"$variant"'/g;
+					s/%%VERSION%%/'"v$latest"'/g;
+					s/%%FRAPPE_VERSION%%/11/g;
+				' "$dir/Dockerfile"
 			else
 				sed -ri -e '
 					s/%%VARIANT%%/'"$variant"'/g;
@@ -88,7 +95,11 @@ for latest in "${latests[@]}"; do
 			done
 
 			cp ".dockerignore" "$dir/.dockerignore"
-			cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
+
+			case $latest in
+				10.*|11.*) cp "docker-compose_mariadb.yml" "$dir/docker-compose.yml";;
+				*) cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml";;
+			esac
 
 			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 

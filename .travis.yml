@@ -15,14 +15,14 @@ before_script:
 
 script:
   - cd "$dir"
-  - docker-compose build
+  - travis_retry travis_wait 60 docker-compose build
   - docker images
   - travis_retry docker-compose up -d && sleep 60
   - docker-compose ps
   - docker-compose logs
-  - docker-compose ps "erpnextdb" | grep "Up"
-  - docker-compose ps "erpnext_app" | grep "Up"
-  - docker-compose ps "erpnext_web" | grep "Up"
+  - docker-compose ps "erpnextdb" | grep "Up" || exit 1
+  - docker-compose ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose ps "erpnext_web" | grep "Up" || exit 1
   - echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 500
   - docker-compose ps
   - docker-compose logs
@@ -35,7 +35,9 @@ notifications:
 
 matrix:
   allow_failures:
+    - env: VERSION=11.1 VARIANT=alpine
     - env: VERSION=10.x VARIANT=alpine
+    # FIXME https://github.com/frappe/frappe/issues/7737
     - env: VERSION=10.x VARIANT=stretch-slim
     - env: VERSION=10.x VARIANT=stretch
 
