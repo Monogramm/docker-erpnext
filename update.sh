@@ -88,7 +88,11 @@ for latest in "${latests[@]}"; do
 			done
 
 			cp ".dockerignore" "$dir/.dockerignore"
-			cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml"
+
+			case $latest in
+				10.*|11.*) cp "docker-compose_mariadb.yml" "$dir/docker-compose.yml";;
+				*) cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml";;
+			esac
 
 			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 
