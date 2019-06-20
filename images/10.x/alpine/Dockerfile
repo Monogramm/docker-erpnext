@@ -1,4 +1,4 @@
-FROM monogramm/docker-frappe:10-alpine
+FROM monogramm/docker-frappe:11-alpine
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 

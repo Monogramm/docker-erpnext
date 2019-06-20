@@ -70,6 +70,13 @@ for latest in "${latests[@]}"; do
 					s/%%VERSION%%/'"$latest"'/g;
 					s/%%FRAPPE_VERSION%%/'"$major"'/g;
 				' "$dir/Dockerfile"
+			elif [ "$latest" = "10.x.x" ]; then
+				# FIXME https://github.com/frappe/frappe/issues/7737
+				sed -ri -e '
+					s/%%VARIANT%%/'"$variant"'/g;
+					s/%%VERSION%%/'"v$latest"'/g;
+					s/%%FRAPPE_VERSION%%/11/g;
+				' "$dir/Dockerfile"
 			else
 				sed -ri -e '
 					s/%%VARIANT%%/'"$variant"'/g;
