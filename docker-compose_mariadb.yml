@@ -13,6 +13,8 @@ services:
     links:
       - erpnextdb
     environment:
+      # Docker setup
+      - DOCKER_DB_ALLOWED_HOSTS=
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
@@ -65,14 +67,14 @@ services:
   erpnextdb:
     image: mariadb:10
     container_name: erpnextdb
-    restart: always
-    command: --character_set_client=utf8 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --character-set-client-handshake=FALSE
+    #restart: always
+    command: --character_set_client=utf8 --bind-address=0.0.0.0 --character-set-client-handshake=FALSE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-mode="ALLOW_INVALID_DATES"
     environment:
       - MYSQL_ROOT_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
-      # Following parameters must NOT be set and are only there for documentation (Bench will install DB)
-      #- MYSQL_DATABASE=${ERPNEXT_DB_NAME}
-      #- MYSQL_USER=${ERPNEXT_DB_USER}
-      #- MYSQL_PASSWORD=${ERPNEXT_DB_PWD}
+      # Following parameters are not needed with Frappe 12 or higher since it will create DB itself
+      - MYSQL_DATABASE=${ERPNEXT_DB_NAME}
+      - MYSQL_USER=${ERPNEXT_DB_NAME}
+      - MYSQL_PASSWORD=${ERPNEXT_DB_PWD}
     volumes:
       - /srv/erpnext/db:/var/lib/mysql
 

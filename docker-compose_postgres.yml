@@ -67,15 +67,13 @@ services:
   erpnextdb:
     image: postgres:10-alpine
     container_name: erpnextdb
-    restart: always
+    #restart: always
     stdin_open: true
     tty: true
     command: postgres -c 'max_connections=500'
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=${ERPNEXT_DB_ROOT_PWD}
-      # Bench will install DB so default postgres DB will not be used
-      - POSTGRES_DB=dummy
     volumes:
       - /srv/erpnext/db/data:/var/lib/postgresql/data
       - /etc/localtime:/etc/localtime:ro

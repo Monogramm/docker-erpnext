@@ -36,8 +36,7 @@ notifications:
 matrix:
   allow_failures:
     - env: VERSION=10.x VARIANT=alpine
-    - env: VERSION=10.x VARIANT=stretch-slim
-    - env: VERSION=10.x VARIANT=stretch
+    - env: VERSION=11.1 VARIANT=alpine
 
 env: # Environments
     - VERSION=develop VARIANT=alpine
