@@ -43,16 +43,16 @@ https://hub.docker.com/r/monogramm/docker-erpnext/
 
 * ERPNext develop branch
     - `develop-alpine` `develop`
-    - `develop-debian`
-    - `develop-debian-slim`
+    - `develop-debian` `develop-stretch`
+    - `develop-debian-slim` `develop-stretch-slim`
 * ERPNext 11
     - `11-alpine` `11` `alpine` `latest`
-    - `11-debian` `debian`
-    - `11-debian-slim` `debian-slim`
+    - `11-debian` `debian` `11-stretch` `stretch`
+    - `11-debian-slim` `debian-slim` `11-stretch-slim` `stretch-slim`
 * ERPNext 10 (branch 10.x.x for latest bug fixes)
     - `10-alpine` `10`
-    - `10-debian`
-    - `10-debian-slim`
+    - `10-debian` `10-stretch`
+    - `10-debian-slim` `10-stretch-slim`
 
 # Questions / Issues
 If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-erpnext) and write an issue.  
