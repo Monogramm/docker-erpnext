@@ -8,9 +8,9 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - erpnextdb
+      - erpnext_db
     links:
-      - erpnextdb
+      - erpnext_db
     environment:
       # Container setup
       - NODE_TYPE=app
@@ -23,7 +23,7 @@ services:
       - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
       # Database setup
       - DB_TYPE=postgres
-      - DB_HOST=erpnextdb
+      - DB_HOST=erpnext_db
       - DB_PORT=5432
       - DB_NAME=${ERPNEXT_DB_NAME}
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
@@ -65,9 +65,9 @@ services:
       - erpnext_app
       - erpnext_socketio
 
-  erpnextdb:
+  erpnext_db:
     image: postgres:10-alpine
-    container_name: erpnextdb
+    container_name: erpnext_db
     #restart: always
     stdin_open: true
     tty: true
@@ -88,6 +88,8 @@ services:
       - erpnext_app
     environment:
       - NODE_TYPE=scheduler
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -101,6 +103,8 @@ services:
       - erpnext_app
     environment:
       - NODE_TYPE=worker-default
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -114,6 +118,8 @@ services:
       - erpnext_app
     environment:
       - NODE_TYPE=worker-long
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -127,6 +133,8 @@ services:
       - erpnext_app
     environment:
       - NODE_TYPE=worker-short
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -135,7 +143,6 @@ services:
   erpnext_socketio:
     build: ./
     container_name: erpnext_socketio
-    command: node-socketio
     #restart: always
     ports:
       - 3000:3000
@@ -143,6 +150,8 @@ services:
       - erpnext_app
     environment:
       - NODE_TYPE=node-socketio
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
