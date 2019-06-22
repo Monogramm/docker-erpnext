@@ -20,13 +20,13 @@ script:
   - travis_retry docker-compose up -d && sleep 60
   - docker-compose ps
   - docker-compose logs
-  - docker-compose ps "erpnextdb" | grep "Up" || exit 1
+  - docker-compose ps "erpnext_db" | grep "Up" || exit 1
   - docker-compose ps "erpnext_app" | grep "Up" || exit 1
   - docker-compose ps "erpnext_web" | grep "Up" || exit 1
   - echo 'Wait until sites and apps database installed (9-10 minutes)' && sleep 500
   - docker-compose ps
   - docker-compose logs
-  - docker-compose ps "erpnextdb" | grep "Up"
+  - docker-compose ps "erpnext_db" | grep "Up"
   - docker-compose ps "erpnext_app" | grep "Up"
   - docker-compose ps "erpnext_web" | grep "Up"
 
@@ -35,19 +35,21 @@ notifications:
 
 matrix:
   allow_failures:
-    - env: VERSION=11.1 VARIANT=alpine
-    - env: VERSION=10.x VARIANT=alpine
+    - env: VERSION=develop BENCH=master VARIANT=alpine
+    - env: VERSION=develop BENCH=master VARIANT=stretch-slim
+    - env: VERSION=develop BENCH=master VARIANT=stretch
     # FIXME https://github.com/frappe/frappe/issues/7737
+    - env: VERSION=10.x VARIANT=alpine
     - env: VERSION=10.x VARIANT=stretch-slim
     - env: VERSION=10.x VARIANT=stretch
 
 env: # Environments
-    - VERSION=develop VARIANT=alpine
-    - VERSION=develop VARIANT=stretch-slim
-    - VERSION=develop VARIANT=stretch
-    - VERSION=10.x VARIANT=alpine
-    - VERSION=10.x VARIANT=stretch-slim
-    - VERSION=10.x VARIANT=stretch
-    - VERSION=11.1 VARIANT=alpine
-    - VERSION=11.1 VARIANT=stretch-slim
-    - VERSION=11.1 VARIANT=stretch
+  - VERSION=develop VARIANT=alpine
+  - VERSION=develop VARIANT=stretch-slim
+  - VERSION=develop VARIANT=stretch
+  - VERSION=10.x VARIANT=alpine
+  - VERSION=10.x VARIANT=stretch-slim
+  - VERSION=10.x VARIANT=stretch
+  - VERSION=11.1 VARIANT=alpine
+  - VERSION=11.1 VARIANT=stretch-slim
+  - VERSION=11.1 VARIANT=stretch

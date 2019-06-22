@@ -101,7 +101,7 @@ for latest in "${latests[@]}"; do
 				*) cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml";;
 			esac
 
-			travisEnv='\n    - VERSION='"$version"' VARIANT='"$variant$travisEnv"
+			travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 
 			if [[ $1 == 'build' ]]; then
 				tag="$version-$variant"

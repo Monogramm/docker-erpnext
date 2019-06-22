@@ -3,7 +3,7 @@ Contributing
 
 First of all, **thank you** for contributing, **you are awesome**!
 
-You can report bugs or request new features by creating an [issue](https://github.com/Monogramm/docker-dolibarr/issues), or submit a [pull request](https://github.com/Monogramm/docker-dolibarr/pulls) with your contribution.
+You can report bugs or request new features by creating an [issue](https://github.com/Monogramm/docker-erpnext/issues), or submit a [pull request](https://github.com/Monogramm/docker-erpnext/pulls) with your contribution.
 
 Here are a few rules to follow in order to ease code reviews and discussions before maintainers accept and merge your work.
 

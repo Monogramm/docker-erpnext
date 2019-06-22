@@ -9,9 +9,9 @@ services:
     ports:
       - 8000:8000
     depends_on:
-      - erpnextdb
+      - erpnext_db
     links:
-      - erpnextdb
+      - erpnext_db
     environment:
       # Docker setup
       - DOCKER_DB_ALLOWED_HOSTS=
@@ -24,7 +24,7 @@ services:
       - ENCRYPTION_KEY=${ERPNEXT_ENCRYPTION_KEY}
       # Database setup
       - DB_TYPE=mariadb
-      - DB_HOST=erpnextdb
+      - DB_HOST=erpnext_db
       - DB_PORT=3306
       - DB_NAME=${ERPNEXT_DB_NAME}
       - DB_PASSWORD=${ERPNEXT_DB_PWD}
@@ -64,9 +64,9 @@ services:
       - erpnext_app
       - erpnext_socketio
 
-  erpnextdb:
+  erpnext_db:
     image: mariadb:10
-    container_name: erpnextdb
+    container_name: erpnext_db
     #restart: always
     command: --character_set_client=utf8 --bind-address=0.0.0.0 --character-set-client-handshake=FALSE --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-mode="ALLOW_INVALID_DATES"
     environment:
@@ -97,6 +97,9 @@ services:
     #restart: always
     depends_on:
       - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -109,6 +112,9 @@ services:
     #restart: always
     depends_on:
       - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -121,6 +127,9 @@ services:
     #restart: always
     depends_on:
       - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
@@ -135,6 +144,9 @@ services:
       - 3000:3000
     depends_on:
       - erpnext_app
+    environment:
+      # Docker setup
+      - DOCKER_APPS_TIMEOUT=900
     volumes:
       - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
       - /etc/localtime:/etc/localtime:ro
