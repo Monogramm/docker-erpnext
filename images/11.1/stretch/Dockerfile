@@ -3,7 +3,7 @@ FROM monogramm/docker-frappe:11-stretch
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
 # Build environment variables
-ENV ERPNEXT_BRANCH=v11.1.39
+ENV ERPNEXT_BRANCH=v11.1.46
 
 # Setup ERPNext
 RUN set -ex; \
