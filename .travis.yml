@@ -35,9 +35,9 @@ notifications:
 
 matrix:
   allow_failures:
-    - env: VERSION=develop BENCH=master VARIANT=alpine
-    - env: VERSION=develop BENCH=master VARIANT=stretch-slim
-    - env: VERSION=develop BENCH=master VARIANT=stretch
+    - env: VERSION=develop VARIANT=alpine
+    - env: VERSION=develop VARIANT=stretch-slim
+    - env: VERSION=develop VARIANT=stretch
     # FIXME https://github.com/frappe/frappe/issues/7737
     - env: VERSION=10.x VARIANT=alpine
     - env: VERSION=10.x VARIANT=stretch-slim
