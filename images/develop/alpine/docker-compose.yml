@@ -16,6 +16,7 @@ services:
       - NODE_TYPE=app
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
+      - FRAPPE_DEFAULT_PROTOCOL=http://
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
       - FRAPPE_LOGGING=1
       #- ADMIN_USER=Administrator
