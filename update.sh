@@ -60,31 +60,6 @@ for latest in "${latests[@]}"; do
 			echo "generating frappe $latest [$version] ($variant)"
 			mkdir -p "$dir"
 
-			template="Dockerfile-${base[$variant]}.template"
-			cp "$template" "$dir/Dockerfile"
-
-			# Replace the variables.
-			if [ "$latest" = "develop" ]; then
-				sed -ri -e '
-					s/%%VARIANT%%/'"$variant"'/g;
-					s/%%VERSION%%/'"$latest"'/g;
-					s/%%FRAPPE_VERSION%%/'"$major"'/g;
-				' "$dir/Dockerfile"
-			elif [ "$latest" = "10.x.x" ]; then
-				# FIXME https://github.com/frappe/frappe/issues/7737
-				sed -ri -e '
-					s/%%VARIANT%%/'"$variant"'/g;
-					s/%%VERSION%%/'"v$latest"'/g;
-					s/%%FRAPPE_VERSION%%/11/g;
-				' "$dir/Dockerfile"
-			else
-				sed -ri -e '
-					s/%%VARIANT%%/'"$variant"'/g;
-					s/%%VERSION%%/'"v$latest"'/g;
-					s/%%FRAPPE_VERSION%%/'"$major"'/g;
-				' "$dir/Dockerfile"
-			fi
-
 			# Copy the docker files
 			for name in redis_cache.conf nginx.conf .env; do
 				cp "docker-$name" "$dir/$name"
@@ -100,6 +75,34 @@ for latest in "${latests[@]}"; do
 				10.*|11.*) cp "docker-compose_mariadb.yml" "$dir/docker-compose.yml";;
 				*) cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml";;
 			esac
+
+			template="Dockerfile-${base[$variant]}.template"
+			cp "$template" "$dir/Dockerfile"
+
+			# Replace the variables.
+			if [ "$latest" = "develop" ]; then
+				sed -ri -e '
+					s/%%VARIANT%%/'"$variant"'/g;
+					s/%%VERSION%%/'"$latest"'/g;
+					s/%%FRAPPE_VERSION%%/'"$major"'/g;
+					s/%%ERPNEXT_VERSION%%/'"$major"'/g;
+				' "$dir/Dockerfile" "$dir/docker-compose.yml"
+			elif [ "$latest" = "10.x.x" ]; then
+				# FIXME https://github.com/frappe/frappe/issues/7737
+				sed -ri -e '
+					s/%%VARIANT%%/'"$variant"'/g;
+					s/%%VERSION%%/'"v$latest"'/g;
+					s/%%FRAPPE_VERSION%%/11/g;
+					s/%%ERPNEXT_VERSION%%/11/g;
+				' "$dir/Dockerfile" "$dir/docker-compose.yml"
+			else
+				sed -ri -e '
+					s/%%VARIANT%%/'"$variant"'/g;
+					s/%%VERSION%%/'"v$latest"'/g;
+					s/%%FRAPPE_VERSION%%/'"$major"'/g;
+					s/%%ERPNEXT_VERSION%%/'"$major"'/g;
+				' "$dir/Dockerfile" "$dir/docker-compose.yml"
+			fi
 
 			travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant$travisEnv"
 
