@@ -63,7 +63,7 @@ This image is designed to be used in a micro-service environment using docker-co
 # Running this image with docker-compose
 
 * Select the version closest to what you want in the images folder
-    * You can comment the `build` lines, uncomment the `image` lines and edit versions to download prebuilt docker container.
+    * In the `docker-compose.yml`, you can comment the `build` lines, uncomment the `image` lines and edit versions to download prebuilt docker container.
 * Feel free to edit variables defined in `.env` as you see fit.
 * Run the docker-compose with `docker-compose up -d` and that's it.
 * Now, go to http://localhost:80 to access the first run installation wizard.
