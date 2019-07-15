@@ -54,6 +54,20 @@ https://hub.docker.com/r/monogramm/docker-erpnext/
     - `10-debian` `10-stretch`
     - `10-debian-slim` `10-stretch-slim`
 
+## How to run this image ?
+
+This image does not contain the database for ERPNext. You need to use either an existing database or a database container.
+
+This image is designed to be used in a micro-service environment using docker-compose. There are basically 2 variants of the image you can choose from: `alpine` or `debian`.
+
+# Running this image with docker-compose
+
+* Select the version closest to what you want in the images folder
+    * You can comment the `build` lines, uncomment the `image` lines and edit versions to download prebuilt docker container.
+* Feel free to edit variables defined in `.env` as you see fit.
+* Run the docker-compose with `docker-compose up -d` and that's it.
+* Now, go to http://localhost:80 to access the first run installation wizard.
+
 # Questions / Issues
 If you got any questions or problems using the image, please visit our [Github Repository](https://github.com/Monogramm/docker-erpnext) and write an issue.  
 
