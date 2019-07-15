@@ -84,6 +84,7 @@ for latest in "${latests[@]}"; do
 				sed -ri -e '
 					s/%%VARIANT%%/'"$variant"'/g;
 					s/%%VERSION%%/'"$latest"'/g;
+					s/%%PIP_VERSION%%/3/g;
 					s/%%FRAPPE_VERSION%%/'"$major"'/g;
 					s/%%ERPNEXT_VERSION%%/'"$major"'/g;
 				' "$dir/Dockerfile" "$dir/docker-compose.yml"
@@ -92,6 +93,7 @@ for latest in "${latests[@]}"; do
 				sed -ri -e '
 					s/%%VARIANT%%/'"$variant"'/g;
 					s/%%VERSION%%/'"v$latest"'/g;
+					s/%%PIP_VERSION%%//g;
 					s/%%FRAPPE_VERSION%%/10/g;
 					s/%%ERPNEXT_VERSION%%/10/g;
 				' "$dir/Dockerfile" "$dir/docker-compose.yml"
@@ -99,6 +101,7 @@ for latest in "${latests[@]}"; do
 				sed -ri -e '
 					s/%%VARIANT%%/'"$variant"'/g;
 					s/%%VERSION%%/'"v$latest"'/g;
+					s/%%PIP_VERSION%%/3/g;
 					s/%%FRAPPE_VERSION%%/'"$major"'/g;
 					s/%%ERPNEXT_VERSION%%/'"$major"'/g;
 				' "$dir/Dockerfile" "$dir/docker-compose.yml"

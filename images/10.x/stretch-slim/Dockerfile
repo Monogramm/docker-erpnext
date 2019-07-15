@@ -8,7 +8,7 @@ ENV ERPNEXT_BRANCH=v10.x.x
 # Setup ERPNext
 RUN set -ex; \
     bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
-    sudo ./env/bin/pip3 install \
+    sudo ./env/bin/pip install \
         ldap3 \
     ;
 
