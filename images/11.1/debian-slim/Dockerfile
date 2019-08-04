@@ -1,14 +1,14 @@
-FROM monogramm/docker-frappe:10-stretch
+FROM monogramm/docker-frappe:11-debian-slim
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
 # Build environment variables
-ENV ERPNEXT_BRANCH=v10.x.x
+ENV ERPNEXT_BRANCH=v11.1.52
 
 # Setup ERPNext
 RUN set -ex; \
     bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
-    sudo ./env/bin/pip install \
+    sudo ./env/bin/pip3 install \
         ldap3 \
     ;
 

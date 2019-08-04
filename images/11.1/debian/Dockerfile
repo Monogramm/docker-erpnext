@@ -1,9 +1,9 @@
-FROM monogramm/docker-frappe:develop-stretch-slim
+FROM monogramm/docker-frappe:11-debian
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
 # Build environment variables
-ENV ERPNEXT_BRANCH=develop
+ENV ERPNEXT_BRANCH=v11.1.52
 
 # Setup ERPNext
 RUN set -ex; \

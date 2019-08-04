@@ -5,7 +5,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:develop-stretch 
+    #image: monogramm:docker-erpnext:10-debian-slim 
     container_name: erpnext_app
     command: app
     #restart: always
@@ -86,7 +86,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:develop-stretch 
+    #image: monogramm:docker-erpnext:10-debian-slim 
     container_name: erpnext_scheduler
     command: scheduler
     #restart: always
@@ -101,7 +101,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:develop-stretch 
+    #image: monogramm:docker-erpnext:10-debian-slim 
     container_name: erpnext_worker_default
     command: worker-default
     #restart: always
@@ -119,7 +119,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:develop-stretch 
+    #image: monogramm:docker-erpnext:10-debian-slim 
     container_name: erpnext_worker_long
     command: worker-long
     #restart: always
@@ -137,7 +137,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:develop-stretch 
+    #image: monogramm:docker-erpnext:10-debian-slim 
     container_name: erpnext_worker_short
     command: worker-short
     #restart: always
@@ -155,7 +155,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:develop-stretch 
+    #image: monogramm:docker-erpnext:10-debian-slim 
     container_name: erpnext_socketio
     command: node-socketio
     #restart: always

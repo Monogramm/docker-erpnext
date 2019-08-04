@@ -1,4 +1,4 @@
-FROM monogramm/docker-frappe:12-stretch-slim
+FROM monogramm/docker-frappe:12-debian
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>"
 
