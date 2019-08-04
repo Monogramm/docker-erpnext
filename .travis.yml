@@ -38,6 +38,7 @@ matrix:
     - env: VERSION=develop VARIANT=alpine
     - env: VERSION=develop VARIANT=stretch-slim
     - env: VERSION=develop VARIANT=stretch
+    - env: VERSION=12.0 VARIANT=alpine
     # FIXME https://github.com/frappe/frappe/issues/7737
     #- env: VERSION=10.x VARIANT=alpine
     #- env: VERSION=10.x VARIANT=stretch-slim
@@ -53,3 +54,6 @@ env: # Environments
   - VERSION=11.1 VARIANT=alpine
   - VERSION=11.1 VARIANT=stretch-slim
   - VERSION=11.1 VARIANT=stretch
+  - VERSION=12.0 VARIANT=alpine
+  - VERSION=12.0 VARIANT=stretch-slim
+  - VERSION=12.0 VARIANT=stretch
