@@ -7,6 +7,8 @@ ENV ERPNEXT_BRANCH=v11.1.52
 
 # Setup ERPNext
 RUN set -ex; \
+    mkdir -p "/home/$FRAPPE_USER/frappe-bench/logs"; \
+    chmod 777 "/home/$FRAPPE_USER/frappe-bench/logs"; \
     bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
     sudo ./env/bin/pip3 install \
         ldap3 \
