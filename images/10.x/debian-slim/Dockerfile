@@ -7,8 +7,12 @@ ENV ERPNEXT_BRANCH=v10.x.x
 
 # Setup ERPNext
 RUN set -ex; \
-    mkdir -p "/home/$FRAPPE_USER/frappe-bench/logs"; \
-    chmod 777 "/home/$FRAPPE_USER/frappe-bench/logs"; \
+    sudo mkdir -p "/home/$FRAPPE_USER"/frappe-bench/logs; \
+    sudo touch "/home/$FRAPPE_USER"/frappe-bench/logs/bench.log; \
+    sudo chmod 777 \
+        "/home/$FRAPPE_USER"/frappe-bench/logs \
+        "/home/$FRAPPE_USER"/frappe-bench/logs/* \
+    ; \
     bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
     sudo ./env/bin/pip install \
         ldap3 \
