@@ -2,20 +2,20 @@
 set -eo pipefail
 
 declare -A base=(
-	[stretch]='debian'
-	[stretch-slim]='debian'
+	[debian]='debian'
+	[debian-slim]='debian'
 	[alpine]='alpine'
 )
 
 declare -A compose=(
-	[stretch]='mariadb'
-	[stretch-slim]='mariadb'
+	[debian]='mariadb'
+	[debian-slim]='mariadb'
 	[alpine]='postgres'
 )
 
 variants=(
-	stretch
-	stretch-slim
+	debian
+	debian-slim
 	alpine
 )
 
