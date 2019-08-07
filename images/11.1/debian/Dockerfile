@@ -2,7 +2,7 @@ FROM monogramm/docker-frappe:11-debian
 
 ARG VCS_REF
 ARG BUILD_DATE
-ARG VERSION=v11.1.52
+ARG VERSION=v11.1.53
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
       product="ERPNext" \
@@ -22,6 +22,12 @@ ENV ERPNEXT_BRANCH=${VERSION}
 
 # Setup ERPNext
 RUN set -ex; \
+    sudo mkdir -p "/home/$FRAPPE_USER"/frappe-bench/logs; \
+    sudo touch "/home/$FRAPPE_USER"/frappe-bench/logs/bench.log; \
+    sudo chmod 777 \
+        "/home/$FRAPPE_USER"/frappe-bench/logs \
+        "/home/$FRAPPE_USER"/frappe-bench/logs/* \
+    ; \
     bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
     sudo ./env/bin/pip3 install \
         ldap3 \
