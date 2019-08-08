@@ -1,5 +1,6 @@
 FROM monogramm/docker-frappe:%%FRAPPE_VERSION%%-%%VARIANT%%
 
+ARG TAG
 ARG VCS_REF
 ARG BUILD_DATE
 ARG VERSION=%%VERSION%%
@@ -18,7 +19,10 @@ LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
       org.label-schema.schema-version="1.0"
 
 # Build environment variables
-ENV ERPNEXT_BRANCH=${VERSION}
+ENV DOCKER_TAG=${TAG} \
+    DOCKER_VCS_REF=${VCS_REF} \
+    DOCKER_BUILD_DATE=${BUILD_DATE} \
+    ERPNEXT_BRANCH=${VERSION}
 
 # Setup ERPNext
 RUN set -ex; \
