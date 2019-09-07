@@ -24,6 +24,7 @@ services:
       - NODE_TYPE=sut
       # Docker setup
       - DOCKER_APPS_TIMEOUT=900
+      - DOCKER_DEBUG=1
     volumes_from:
       - erpnext_app
     volumes:
@@ -46,6 +47,7 @@ services:
       - DOCKER_DB_ALLOWED_HOSTS=172.%.%.%
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
+      - FRAPPE_APP_RESET=1
       - FRAPPE_DEFAULT_PROTOCOL=http://
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
       - FRAPPE_LOGGING=1
