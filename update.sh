@@ -79,6 +79,8 @@ for latest in "${latests[@]}"; do
 
 			cp ".dockerignore" "$dir/.dockerignore"
 			cp -r "./hooks" "$dir/hooks"
+			cp -r "./test" "$dir/"
+			cp -r "docker-compose.test.yml" "$dir/docker-compose.test.yml"
 
 			# Replace the variables.
 			if [ "$latest" = "develop" ]; then
@@ -88,7 +90,7 @@ for latest in "${latests[@]}"; do
 					s/%%PIP_VERSION%%/3/g;
 					s/%%FRAPPE_VERSION%%/'"$major"'/g;
 					s/%%ERPNEXT_VERSION%%/'"$major"'/g;
-				' "$dir/Dockerfile" "$dir/docker-compose.yml"
+				' "$dir/Dockerfile" "$dir/test/Dockerfile" "$dir/docker-compose.yml"
 			elif [ "$latest" = "10.x.x" ]; then
 				# FIXME https://github.com/frappe/frappe/issues/7737
 				sed -ri -e '
@@ -97,7 +99,7 @@ for latest in "${latests[@]}"; do
 					s/%%PIP_VERSION%%//g;
 					s/%%FRAPPE_VERSION%%/10/g;
 					s/%%ERPNEXT_VERSION%%/10/g;
-				' "$dir/Dockerfile" "$dir/docker-compose.yml"
+				' "$dir/Dockerfile" "$dir/test/Dockerfile" "$dir/docker-compose.yml"
 			else
 				sed -ri -e '
 					s/%%VARIANT%%/'"$variant"'/g;
@@ -105,7 +107,7 @@ for latest in "${latests[@]}"; do
 					s/%%PIP_VERSION%%/3/g;
 					s/%%FRAPPE_VERSION%%/'"$major"'/g;
 					s/%%ERPNEXT_VERSION%%/'"$major"'/g;
-				' "$dir/Dockerfile" "$dir/docker-compose.yml"
+				' "$dir/Dockerfile" "$dir/test/Dockerfile" "$dir/docker-compose.yml"
 			fi
 
 			travisEnv='\n  - VERSION='"$version"' VARIANT='"$variant$travisEnv"
