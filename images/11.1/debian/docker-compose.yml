@@ -52,6 +52,7 @@ services:
       - DOCKER_DB_ALLOWED_HOSTS=172.%.%.%
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
+      - FRAPPE_APP_RESET=1
       - FRAPPE_DEFAULT_PROTOCOL=http://
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
       - FRAPPE_LOGGING=1
