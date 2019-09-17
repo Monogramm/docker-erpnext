@@ -22,7 +22,8 @@ LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
 ENV DOCKER_TAG=${TAG} \
     DOCKER_VCS_REF=${VCS_REF} \
     DOCKER_BUILD_DATE=${BUILD_DATE} \
-    ERPNEXT_BRANCH=${VERSION}
+    ERPNEXT_BRANCH=${VERSION} \
+    FRAPPE_APP_PROTECTED='frappe erpnext'
 
 # Setup ERPNext
 RUN set -ex; \
@@ -37,4 +38,4 @@ RUN set -ex; \
         ldap3 \
     ;
 
-VOLUME ["/home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public", "/home/$FRAPPE_USER/frappe-bench/apps/frappe/frappe/public"]
+VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
