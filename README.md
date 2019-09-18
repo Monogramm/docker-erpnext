@@ -11,7 +11,7 @@
 
 # ERPNext Docker container
 
-Docker image for ERPNext.
+:whale: Docker image for ERPNext.
 
 This image was inspired by several other containers developed by the community:
 * [emadshaaban92/docker-compose-erpnext](https://github.com/emadshaaban92/docker-compose-erpnext/) / [BizzoTech/docker-erpnext](https://github.com/BizzoTech/docker-erpnext) for the "_simple_" docker-compose setup
