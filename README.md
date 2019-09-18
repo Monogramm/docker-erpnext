@@ -13,6 +13,8 @@
 
 :whale: Docker image for ERPNext.
 
+:warning: **This image is still in beta and should not be used in production (yet)!**
+
 This image was inspired by several other containers developed by the community:
 * [emadshaaban92/docker-compose-erpnext](https://github.com/emadshaaban92/docker-compose-erpnext/) / [BizzoTech/docker-erpnext](https://github.com/BizzoTech/docker-erpnext) for the "_simple_" docker-compose setup
 * [donysukardi/docker-frappe](https://github.com/donysukardi/docker-frappe) for the alpine variant (actually the source for BizzoTech images)
@@ -26,8 +28,6 @@ The concept is the following:
 Check base image [Monogramm/docker-frappe](https://github.com/Monogramm/docker-frappe) for details.
 
 Check image [Monogramm/docker-erpnext-ext](https://github.com/Monogramm/docker-erpnext-ext) to see how to expand this image and add custom frappe apps.
-
-:warning: **This image is still in beta and should not be used in production (yet)!**
 
 ## What is ERPNext ?
 
