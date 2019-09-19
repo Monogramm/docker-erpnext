@@ -1,3 +1,20 @@
+##
+##    Docker image for ERPNext.
+##    Copyright (C) 2019  Monogramm
+##
+##    This program is free software: you can redistribute it and/or modify
+##    it under the terms of the GNU Affero General Public License as published
+##    by the Free Software Foundation, either version 3 of the License, or
+##    (at your option) any later version.
+##
+##    This program is distributed in the hope that it will be useful,
+##    but WITHOUT ANY WARRANTY; without even the implied warranty of
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##    GNU Affero General Public License for more details.
+##
+##    You should have received a copy of the GNU Affero General Public License
+##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##
 FROM monogramm/docker-frappe:12-debian
 
 ARG TAG
@@ -22,7 +39,8 @@ LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
 ENV DOCKER_TAG=${TAG} \
     DOCKER_VCS_REF=${VCS_REF} \
     DOCKER_BUILD_DATE=${BUILD_DATE} \
-    ERPNEXT_BRANCH=${VERSION}
+    ERPNEXT_BRANCH=${VERSION} \
+    FRAPPE_APP_PROTECTED='frappe erpnext'
 
 # Setup ERPNext
 RUN set -ex; \
@@ -37,4 +55,4 @@ RUN set -ex; \
         ldap3 \
     ;
 
-VOLUME ["/home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public", "/home/$FRAPPE_USER/frappe-bench/apps/frappe/frappe/public"]
+VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
