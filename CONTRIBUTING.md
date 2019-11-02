@@ -13,8 +13,7 @@ You MUST run the CI test suite and ensure it is successful. If you haven't enabl
 
 You SHOULD write documentation.
 
-Please, write [commit messages that make sense](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html), and [rebase your branch](http://git-scm.com/book/en/Git-Branching-Rebasing)
-before submitting your Pull Request.
+Please, write [commit messages that make sense](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html), and [rebase your branch](http://git-scm.com/book/en/Git-Branching-Rebasing) before submitting your Pull Request.
 
 You MUST use the `develop` branch as the base of your Pull Request.
 
