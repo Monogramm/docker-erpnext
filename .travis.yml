@@ -68,6 +68,9 @@ matrix:
     - env: VERSION=develop VARIANT=alpine
     - env: VERSION=develop VARIANT=debian-slim
     - env: VERSION=develop VARIANT=debian
+    - env: VERSION=12.2 VARIANT=alpine
+    - env: VERSION=12.2 VARIANT=debian-slim
+    - env: VERSION=12.2 VARIANT=debian
     - env: VERSION=12.1 VARIANT=alpine
     - env: VERSION=12.1 VARIANT=debian-slim
     - env: VERSION=12.1 VARIANT=debian
@@ -93,3 +96,6 @@ env: # Environments
   - VERSION=12.1 VARIANT=alpine
   - VERSION=12.1 VARIANT=debian-slim
   - VERSION=12.1 VARIANT=debian
+  - VERSION=12.2 VARIANT=alpine
+  - VERSION=12.2 VARIANT=debian-slim
+  - VERSION=12.2 VARIANT=debian
