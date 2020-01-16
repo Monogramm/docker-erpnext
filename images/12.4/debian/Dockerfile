@@ -15,12 +15,12 @@
 ##    You should have received a copy of the GNU Affero General Public License
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-FROM monogramm/docker-frappe:11-debian
+FROM monogramm/docker-frappe:12-debian
 
 ARG TAG
 ARG VCS_REF
 ARG BUILD_DATE
-ARG VERSION=v11.1.72
+ARG VERSION=v12.4.0
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
       product="ERPNext" \
