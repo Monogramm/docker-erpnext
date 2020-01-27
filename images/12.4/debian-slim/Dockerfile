@@ -20,7 +20,7 @@ FROM monogramm/docker-frappe:12-debian-slim
 ARG TAG
 ARG VCS_REF
 ARG BUILD_DATE
-ARG VERSION=v12.4.0
+ARG VERSION=v12.4.2
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
       product="ERPNext" \
