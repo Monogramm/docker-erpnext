@@ -115,7 +115,7 @@ for latest in "${latests[@]}"; do
 			if [[ $1 == 'build' ]]; then
 				tag="$version-$variant"
 				echo "Build Dockerfile for ${tag}"
-				docker build -t ${dockerRepo}:${tag} $dir
+				docker build -t "${dockerRepo}:${tag}" "$dir"
 			fi
 		done
 
