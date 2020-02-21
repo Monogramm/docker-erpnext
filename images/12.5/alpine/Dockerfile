@@ -15,9 +15,9 @@
 ##    You should have received a copy of the GNU Affero General Public License
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-FROM monogramm/docker-frappe:10-debian-slim
+FROM monogramm/docker-frappe:12-alpine
 
-ARG VERSION=v10.x.x
+ARG VERSION=v12.5.0
 
 # Build environment variables
 ENV ERPNEXT_BRANCH=${VERSION} \
@@ -32,7 +32,7 @@ RUN set -ex; \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
     ; \
     bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
-    sudo ./env/bin/pip install \
+    sudo ./env/bin/pip3 install \
         ldap3 \
     ;
 
