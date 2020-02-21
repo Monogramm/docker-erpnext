@@ -62,7 +62,7 @@ for latest in "${latests[@]}"; do
 
 			# Copy the docker files
 			for name in redis_cache.conf nginx.conf .env; do
-				cp "docker-$name" "$dir/$name"
+				cp "template/$name" "$dir/$name"
 				chmod 755 "$dir/$name"
 				sed -i \
 					-e 's/{{ NGINX_SERVER_NAME }}/localhost/g' \
@@ -70,17 +70,17 @@ for latest in "${latests[@]}"; do
 			done
 
 			case $latest in
-				10.*|11.*) cp "docker-compose_mariadb.yml" "$dir/docker-compose.yml";;
-				*) cp "docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml";;
+				10.*|11.*) cp "template/docker-compose_mariadb.yml" "$dir/docker-compose.yml";;
+				*) cp "template/docker-compose_${compose[$variant]}.yml" "$dir/docker-compose.yml";;
 			esac
 
-			template="Dockerfile-${base[$variant]}.template"
+			template="template/Dockerfile.${base[$variant]}.template"
 			cp "$template" "$dir/Dockerfile"
 
-			cp ".dockerignore" "$dir/.dockerignore"
-			cp -r "./hooks" "$dir/hooks"
-			cp -r "./test" "$dir/"
-			cp -r "docker-compose.test.yml" "$dir/docker-compose.test.yml"
+			cp "template/.dockerignore" "$dir/.dockerignore"
+			cp -r "./template/hooks" "$dir/hooks"
+			cp -r "./template/test" "$dir/"
+			cp -r "template/docker-compose.test.yml" "$dir/docker-compose.test.yml"
 
 			# Replace the variables.
 			if [ "$latest" = "develop" ]; then
