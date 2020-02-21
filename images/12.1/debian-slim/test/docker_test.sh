@@ -2,6 +2,9 @@
 
 set -e
 
+################################################################################
+# Testing docker containers
+
 echo "Waiting to ensure everything is fully ready for the tests..."
 sleep 60
 
@@ -34,11 +37,113 @@ if ! sudo ping -c 10 -q erpnext_web ; then
     exit 8
 fi
 
-# XXX Add your own tests
-# https://docs.docker.com/docker-hub/builds/automated-testing/
 
+################################################################################
 # Success
-echo 'Docker test successful'
-echo 'Check the following logs for details:'
-tail -n 100 logs/*.log
+echo 'Docker tests successful'
+
+
+################################################################################
+# Automated Unit tests
+# https://docs.docker.com/docker-hub/builds/automated-testing/
+# https://frappe.io/docs/user/en/testing
+################################################################################
+
+FRAPPE_APP_TO_TEST=erpnext
+
+echo "Preparing Frappe application '${FRAPPE_APP_TO_TEST}' tests..."
+
+################################################################################
+# TODO Frappe Unit tests
+# https://frappe.io/docs/user/en/guides/automated-testing/unit-testing
+
+FRAPPE_APP_UNIT_TEST_REPORT="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.xml"
+FRAPPE_APP_UNIT_TEST_PROFILE="$(pwd)/sites/.${FRAPPE_APP_TO_TEST}_unit_tests.prof"
+
+#bench run-tests --help
+
+#echo "Executing Unit Tests of '${FRAPPE_APP_TO_TEST}' app..."
+#if [ "${TEST_VERSION}" = "10" ]; then
+#    bench run-tests \
+#        --app "${FRAPPE_APP_TO_TEST}" \
+#        --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}" \
+#        --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
+#else
+#    bench run-tests \
+#        --app "${FRAPPE_APP_TO_TEST}" \
+#        --coverage \
+#        --junit-xml-output "${FRAPPE_APP_UNIT_TEST_REPORT}" \
+#        --profile > "${FRAPPE_APP_UNIT_TEST_PROFILE}"
+#fi
+
+## Check result of tests
+if [ -f "${FRAPPE_APP_UNIT_TEST_REPORT}" ]; then
+    echo "Checking Frappe application '${FRAPPE_APP_TO_TEST}' unit tests report..."
+
+    if grep -E '(errors|failures)="[1-9][0-9]*"' "${FRAPPE_APP_UNIT_TEST_REPORT}"; then
+        echo "Unit Tests of '${FRAPPE_APP_TO_TEST}' app failed! See report for details:"
+        cat "${FRAPPE_APP_UNIT_TEST_REPORT}"
+        exit 1
+    else
+        echo "Unit Tests of '${FRAPPE_APP_TO_TEST}' app successful! See report for details:"
+        cat "${FRAPPE_APP_UNIT_TEST_REPORT}"
+    fi
+fi
+
+if [ -f ./sites/.coverage ]; then
+    echo "Sending Unit Tests coverage of '${FRAPPE_APP_TO_TEST}' app to Coveralls..."
+    set +e
+    coveralls -b "$(pwd)/apps/${FRAPPE_APP_TO_TEST}" -d "$(pwd)/sites/.coverage"
+    set -e
+fi
+
+if [ -f "${FRAPPE_APP_UNIT_TEST_PROFILE}" ]; then
+    echo "Checking Frappe application '${FRAPPE_APP_TO_TEST}' unit tests profile..."
+
+    # XXX Are there any online services that could receive and display profiles?
+    #cat "${FRAPPE_APP_UNIT_TEST_PROFILE}"
+fi
+
+
+################################################################################
+# TODO QUnit (JS) Unit tests
+# https://frappe.io/docs/user/en/guides/automated-testing/qunit-testing
+
+#bench run-ui-tests --help
+
+#echo "Executing UI Tests of '${FRAPPE_APP_TO_TEST}' app..."
+#if [ "${TEST_VERSION}" = "10" ] || [ "${TEST_VERSION}" = "11" ]; then
+#    bench run-ui-tests --app ${FRAPPE_APP_TO_TEST}
+#else
+#    bench run-ui-tests ${FRAPPE_APP_TO_TEST}
+#fi
+
+## TODO Check result of UI tests
+
+
+
+################################################################################
+# TODO Generate docs
+
+#bench build-docs --help
+
+#echo "Generating docs for '${FRAPPE_APP_TO_TEST}' app..."
+#if [ "${TEST_VERSION}" = "10" ] || [ "${TEST_VERSION}" = "11" ]; then
+#    set +e
+#    bench build-docs \
+#        --target ${FRAPPE_APP_TO_TEST} \
+#        --docs-version ${FRAPPE_APP_TO_TEST} \
+#        ${FRAPPE_APP_TO_TEST}
+#    set -e
+#else
+#    echo "Building docs is not available for this version of Frappe (${TEST_VERSION})"
+#fi
+
+## TODO Check docs generated properly
+
+
+################################################################################
+# Success
+echo 'Frappe app '${FRAPPE_APP_TO_TEST}' tests finished'
+echo 'Check the CI reports and logs for details.'
 exit 0
