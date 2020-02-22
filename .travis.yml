@@ -1,17 +1,20 @@
+os: linux
 dist: trusty
-sudo: required
 
 services: docker
 
-language: bash
+language: shell
 
 branches:
   only:
+    - develop
     - master
 
 before_script:
   - env | sort
   - dir="images/${VERSION}/${VARIANT}"
+  - export DOCKER_TAG="${VERSION}-${VARIANT}-travis"
+  - export IMAGE_NAME="docker-erpnext-travis:${DOCKER_TAG}"
 
 script:
   - cd "$dir"
