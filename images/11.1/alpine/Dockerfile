@@ -17,29 +17,10 @@
 ##
 FROM monogramm/docker-frappe:11-alpine
 
-ARG TAG
-ARG VCS_REF
-ARG BUILD_DATE
-ARG VERSION=v11.1.72
-
-LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
-      product="ERPNext" \
-      version=$VERSION \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/Monogramm/docker-erpnext" \
-      org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name="ERPNext" \
-      org.label-schema.description="Open Source ERP built for the web, supports manufacturing, distribution, retail, trading, services, education, non profits and healthcare." \
-      org.label-schema.url="https://erpnext.com/" \
-      org.label-schema.vendor="Frappé Technologies Pvt. Ltd" \
-      org.label-schema.version=$VERSION \
-      org.label-schema.schema-version="1.0"
+ARG VERSION=v11.1.73
 
 # Build environment variables
-ENV DOCKER_TAG=${TAG} \
-    DOCKER_VCS_REF=${VCS_REF} \
-    DOCKER_BUILD_DATE=${BUILD_DATE} \
-    ERPNEXT_BRANCH=${VERSION} \
+ENV ERPNEXT_BRANCH=${VERSION} \
     FRAPPE_APP_PROTECTED='frappe erpnext'
 
 # Setup ERPNext
@@ -56,3 +37,25 @@ RUN set -ex; \
     ;
 
 VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
+
+ARG TAG
+ARG VCS_REF
+ARG BUILD_DATE
+
+# Build environment variables
+ENV DOCKER_TAG=${TAG} \
+    DOCKER_VCS_REF=${VCS_REF} \
+    DOCKER_BUILD_DATE=${BUILD_DATE}
+
+LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
+      product="ERPNext" \
+      version=$VERSION \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/Monogramm/docker-erpnext" \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="ERPNext" \
+      org.label-schema.description="Open Source ERP built for the web, supports manufacturing, distribution, retail, trading, services, education, non profits and healthcare." \
+      org.label-schema.url="https://erpnext.com/" \
+      org.label-schema.vendor="Frappé Technologies Pvt. Ltd" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0"

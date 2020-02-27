@@ -15,12 +15,37 @@
 ##    You should have received a copy of the GNU Affero General Public License
 ##    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ##
-FROM monogramm/docker-frappe:%%FRAPPE_VERSION%%-%%VARIANT%%
+FROM monogramm/docker-frappe:12-alpine
+
+ARG VERSION=v12.5.0
+
+# Build environment variables
+ENV ERPNEXT_BRANCH=${VERSION} \
+    FRAPPE_APP_PROTECTED='frappe erpnext'
+
+# Setup ERPNext
+RUN set -ex; \
+    sudo mkdir -p "/home/$FRAPPE_USER"/frappe-bench/logs; \
+    sudo touch "/home/$FRAPPE_USER"/frappe-bench/logs/bench.log; \
+    sudo chmod 777 \
+        "/home/$FRAPPE_USER"/frappe-bench/logs \
+        "/home/$FRAPPE_USER"/frappe-bench/logs/* \
+    ; \
+    bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
+    sudo ./env/bin/pip3 install \
+        ldap3 \
+    ;
+
+VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
 
 ARG TAG
 ARG VCS_REF
 ARG BUILD_DATE
-ARG VERSION=%%VERSION%%
+
+# Build environment variables
+ENV DOCKER_TAG=${TAG} \
+    DOCKER_VCS_REF=${VCS_REF} \
+    DOCKER_BUILD_DATE=${BUILD_DATE}
 
 LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
       product="ERPNext" \
@@ -34,25 +59,3 @@ LABEL maintainer="Monogramm Maintainers <opensource at monogramm dot io>" \
       org.label-schema.vendor="Frappé Technologies Pvt. Ltd" \
       org.label-schema.version=$VERSION \
       org.label-schema.schema-version="1.0"
-
-# Build environment variables
-ENV DOCKER_TAG=${TAG} \
-    DOCKER_VCS_REF=${VCS_REF} \
-    DOCKER_BUILD_DATE=${BUILD_DATE} \
-    ERPNEXT_BRANCH=${VERSION} \
-    FRAPPE_APP_PROTECTED='frappe erpnext'
-
-# Setup ERPNext
-RUN set -ex; \
-    sudo mkdir -p "/home/$FRAPPE_USER"/frappe-bench/logs; \
-    sudo touch "/home/$FRAPPE_USER"/frappe-bench/logs/bench.log; \
-    sudo chmod 777 \
-        "/home/$FRAPPE_USER"/frappe-bench/logs \
-        "/home/$FRAPPE_USER"/frappe-bench/logs/* \
-    ; \
-    bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
-    sudo ./env/bin/pip%%PIP_VERSION%% install \
-        ldap3 \
-    ;
-
-VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
