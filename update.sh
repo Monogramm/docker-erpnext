@@ -36,8 +36,6 @@ latests=( $( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|
 	develop
 )
 
-latestsBench=( 4.1 master )
-
 # Remove existing images
 echo "reset docker images"
 rm -rf ./images/
