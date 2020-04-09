@@ -1,6 +1,6 @@
 ##
 ##    Docker image for ERPNext.
-##    Copyright (C) 2019  Monogramm
+##    Copyright (C) 2020  Monogramm
 ##
 ##    This program is free software: you can redistribute it and/or modify
 ##    it under the terms of the GNU Affero General Public License as published
@@ -31,7 +31,7 @@ RUN set -ex; \
         "/home/$FRAPPE_USER"/frappe-bench/logs \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
     ; \
-    bench get-app --branch $ERPNEXT_BRANCH erpnext https://github.com/frappe/erpnext; \
+    bench get-app --branch "$ERPNEXT_BRANCH" erpnext https://github.com/frappe/erpnext; \
     sudo ./env/bin/pip install \
         ldap3 \
     ;
