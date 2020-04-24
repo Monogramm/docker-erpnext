@@ -1,12 +1,11 @@
-* * *
-
+---
 name: Bug report
 about: Create a report to help us improve
-title: ''
+title: "[BUG]"
 labels: bug
 assignees: madmath03
 
-* * *
+---
 
 **Describe the bug**
 A clear and concise description of what the bug is.
@@ -25,6 +24,9 @@ A clear and concise description of what you expected to happen.
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
+
+**Stack trace**
+If applicable, add stack trace using `docker logs` or `docker-compose logs` to identify the problem.
 
 **Docker (please complete the following information):**
 
