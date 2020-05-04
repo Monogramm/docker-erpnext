@@ -50,6 +50,7 @@ services:
       - FRAPPE_APP_RESET=1
       - FRAPPE_DEFAULT_PROTOCOL=http://
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
+      - FRAPPE_SOCKETIO_PORT=3000
       - FRAPPE_LOGGING=1
       - DEVELOPER_MODE=0
       - ALLOW_TESTS=1
@@ -196,17 +197,25 @@ services:
   erpnext_redis_cache:
     image: redis:alpine
     container_name: erpnext_redis_cache
+    command: ["redis-server","/etc/conf.d/redis.conf"]
     #restart: always
     volumes:
       - ./services/erpnext/conf/redis_cache.conf:/etc/conf.d/redis.conf:ro
-    command: ["redis-server","/etc/conf.d/redis.conf"]
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 
   erpnext_redis_queue:
     image: redis:alpine
     container_name: erpnext_redis_queue
     #restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 
   erpnext_redis_socketio:
     image: redis:alpine
     container_name: erpnext_redis_socketio
     #restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro

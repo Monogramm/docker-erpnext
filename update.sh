@@ -67,7 +67,7 @@ for latest in "${latests[@]}"; do
 				chmod 755 "$dir/$name"
 				sed -i \
 					-e 's/{{ NGINX_SERVER_NAME }}/localhost/g' \
-				"$dir/$name"
+					"$dir/$name"
 			done
 
 			case $latest in
