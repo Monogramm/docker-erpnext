@@ -21,7 +21,8 @@ ARG VERSION=v12.6.0
 
 # Build environment variables
 ENV ERPNEXT_BRANCH=${VERSION} \
-    FRAPPE_APP_PROTECTED='frappe erpnext'
+    FRAPPE_APP_PROTECTED='frappe erpnext' \
+    DOCKER_GUNICORN_TIMEOUT=600
 
 # Setup ERPNext
 RUN set -ex; \
