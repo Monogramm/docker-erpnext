@@ -28,10 +28,12 @@ function version_greater_or_equal() {
 min_version=10
 
 dockerRepo="monogramm/docker-frappe"
-latests=( $( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
+latests=(
+	13.0.0-beta.1
+	$( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV )
-	11.1.74
+	11.1.75
 	10.x.x
 	develop
 )
