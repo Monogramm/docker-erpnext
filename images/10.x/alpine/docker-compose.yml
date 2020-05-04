@@ -37,7 +37,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:10-alpine 
+    #image: monogramm/docker-erpnext:10-alpine 
     container_name: erpnext_app
     command: app
     #restart: always
