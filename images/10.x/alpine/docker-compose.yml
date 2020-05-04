@@ -50,6 +50,7 @@ services:
     environment:
       # Docker setup
       - DOCKER_DB_ALLOWED_HOSTS=172.%.%.%
+      - DOCKER_GUNICORN_TIMEOUT=600
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
       - FRAPPE_APP_RESET=1

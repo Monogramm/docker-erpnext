@@ -48,6 +48,8 @@ services:
     links:
       - erpnext_db
     environment:
+      # Docker setup
+      - DOCKER_GUNICORN_TIMEOUT=600
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
       - FRAPPE_APP_RESET=1
