@@ -49,17 +49,20 @@ script:
   - docker-compose ps "erpnext_app" | grep "Up" || exit 1
   - docker-compose logs "erpnext_web"
   - docker-compose ps "erpnext_web" | grep "Up" || exit 1
-  - echo 'Wait until test finished (1-2 minutes)' && sleep 90
+  - echo 'Wait until tests finished (9-10 minutes)' && sleep 540
   - docker-compose logs "sut"
   - docker-compose ps "sut" | grep "Exit 0"
-  # Test container migrate, backup and restore
+  # Test container migrate
   - docker-compose run --rm "erpnext_app" bench migrate --help
   - docker-compose run --rm "erpnext_app" migrate
+  # Test container backup
   - docker-compose run --rm "erpnext_app" bench backup --help
   - docker-compose run --rm "erpnext_app" backup && sleep 5
   - docker-compose run --rm "erpnext_app" backup && sleep 5
   - docker-compose run --rm "erpnext_app" backup && sleep 5
+  # Test container restore
   - docker-compose run --rm "erpnext_app" bench restore --help
+  # Test container "old" restore (file number instead of file name)
   - docker-compose run --rm "erpnext_app" restore 1
 
 notifications:
