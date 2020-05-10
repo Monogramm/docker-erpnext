@@ -57,10 +57,6 @@ Open Source ERP built for the web.
     -   `11-alpine` `11`
     -   `11-debian`
     -   `11-debian-slim`
--   ERPNext 10 (branch 10.x.x for latest bug fixes)
-    -   `10-alpine` `10`
-    -   `10-debian`
-    -   `10-debian-slim`
 
 ## How to run this image ?
 
