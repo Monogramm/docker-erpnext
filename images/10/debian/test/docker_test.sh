@@ -42,7 +42,7 @@ bench doctor
 
 echo "Checking apps installed..."
 bench list-apps
-BENCH_LIST_APPS=`bench list-apps`
+BENCH_LIST_APPS=$(bench list-apps)
 
 for app in erpnext; do
     if ! echo "$BENCH_LIST_APPS" | grep "$app"; then
