@@ -18,52 +18,52 @@ before_script:
 script:
   - cd "$dir"
   # Test container build
-  - travis_retry travis_wait 60 docker-compose build
+  - travis_retry travis_wait 60 docker-compose -f docker-compose.${DATABASE}.yml build
   - docker images
   # Test container run
-  - travis_retry docker-compose up -d && sleep 60
-  - docker-compose ps
-  - docker-compose logs "erpnext_db"
-  - docker-compose ps "erpnext_db" | grep "Up" || exit 1
-  - docker-compose logs "erpnext_app"
-  - docker-compose ps "erpnext_app" | grep "Up" || exit 1
-  - docker-compose logs "erpnext_web"
-  - docker-compose ps "erpnext_web" | grep "Up" || exit 1
+  - travis_retry docker-compose -f docker-compose.${DATABASE}.yml up -d && sleep 60
+  - docker-compose -f docker-compose.${DATABASE}.yml ps
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
   - echo 'Wait until sites and apps database installed (11-12 minutes)' && travis_wait 15 sleep 720
-  - docker-compose ps
-  - docker-compose logs "erpnext_db"
-  - docker-compose ps "erpnext_db" | grep "Up"
-  - docker-compose logs "erpnext_app"
-  - docker-compose ps "erpnext_app" | grep "Up"
-  - docker-compose logs "erpnext_web"
-  - docker-compose ps "erpnext_web" | grep "Up"
-  - docker-compose logs "sut"
-  - docker-compose ps "sut" | grep "Exit 0"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
   # Test container restart
-  - docker-compose down
-  - travis_retry docker-compose up -d && sleep 60
-  - docker-compose ps
-  - docker-compose logs "erpnext_db"
-  - docker-compose ps "erpnext_db" | grep "Up" || exit 1
-  - docker-compose logs "erpnext_app"
-  - docker-compose ps "erpnext_app" | grep "Up" || exit 1
-  - docker-compose logs "erpnext_web"
-  - docker-compose ps "erpnext_web" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml down
+  - travis_retry docker-compose -f docker-compose.${DATABASE}.yml up -d && sleep 60
+  - docker-compose -f docker-compose.${DATABASE}.yml ps
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
   - echo 'Wait until tests finished (9-10 minutes)' && sleep 540
-  - docker-compose logs "sut"
-  - docker-compose ps "sut" | grep "Exit 0"
+  - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
+  - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
   # Test container migrate
-  - docker-compose run --rm "erpnext_app" bench migrate --help
-  - docker-compose run --rm "erpnext_app" migrate
+  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" bench migrate --help
+  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" migrate
   # Test container backup
-  - docker-compose run --rm "erpnext_app" bench backup --help
-  - docker-compose run --rm "erpnext_app" backup && sleep 5
-  - docker-compose run --rm "erpnext_app" backup && sleep 5
-  - docker-compose run --rm "erpnext_app" backup && sleep 5
+  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" bench backup --help
+  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" backup && sleep 5
+  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" backup && sleep 5
+  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" backup && sleep 5
   # Test container restore
-  - docker-compose run --rm "erpnext_app" bench restore --help
+  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" bench restore --help
   # Test container "old" restore (file number instead of file name)
-  - docker-compose run --rm "erpnext_app" restore 1
+  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" restore 1
 
 notifications:
   email: false
@@ -73,63 +73,36 @@ matrix:
     - env: VERSION=develop VARIANT=alpine
     - env: VERSION=develop VARIANT=debian-slim
     - env: VERSION=develop VARIANT=debian
-    - env: VERSION=13.0 VARIANT=alpine
-    - env: VERSION=13.0 VARIANT=debian-slim
-    - env: VERSION=13.0 VARIANT=debian
-    - env: VERSION=12.3 VARIANT=alpine
-    - env: VERSION=12.3 VARIANT=debian-slim
-    - env: VERSION=12.3 VARIANT=debian
-    - env: VERSION=12.2 VARIANT=alpine
-    - env: VERSION=12.2 VARIANT=debian-slim
-    - env: VERSION=12.2 VARIANT=debian
-    - env: VERSION=12.1 VARIANT=alpine
-    - env: VERSION=12.1 VARIANT=debian-slim
-    - env: VERSION=12.1 VARIANT=debian
-    - env: VERSION=12.0 VARIANT=alpine
-    - env: VERSION=12.0 VARIANT=debian-slim
-    - env: VERSION=12.0 VARIANT=debian
+    - env: VERSION=13 VARIANT=alpine
+    - env: VERSION=13 VARIANT=debian-slim
+    - env: VERSION=13 VARIANT=debian
     # Stop supporting Frappe 10 and Python 2
-    - env: VERSION=10.x VARIANT=alpine
-    - env: VERSION=10.x VARIANT=debian-slim
-    - env: VERSION=10.x VARIANT=debian
+    - env: VERSION=10 VARIANT=alpine
+    - env: VERSION=10 VARIANT=debian-slim
+    - env: VERSION=10 VARIANT=debian
 
 env: # Environments
-  - VERSION=develop VARIANT=alpine
-  - VERSION=develop VARIANT=debian-slim
-  - VERSION=develop VARIANT=debian
-  - VERSION=10.x VARIANT=alpine
-  - VERSION=10.x VARIANT=debian-slim
-  - VERSION=10.x VARIANT=debian
-  - VERSION=11.1 VARIANT=alpine
-  - VERSION=11.1 VARIANT=debian-slim
-  - VERSION=11.1 VARIANT=debian
-  - VERSION=12.0 VARIANT=alpine
-  - VERSION=12.0 VARIANT=debian-slim
-  - VERSION=12.0 VARIANT=debian
-  - VERSION=12.1 VARIANT=alpine
-  - VERSION=12.1 VARIANT=debian-slim
-  - VERSION=12.1 VARIANT=debian
-  - VERSION=12.2 VARIANT=alpine
-  - VERSION=12.2 VARIANT=debian-slim
-  - VERSION=12.2 VARIANT=debian
-  - VERSION=12.3 VARIANT=alpine
-  - VERSION=12.3 VARIANT=debian-slim
-  - VERSION=12.3 VARIANT=debian
-  - VERSION=12.4 VARIANT=alpine
-  - VERSION=12.4 VARIANT=debian-slim
-  - VERSION=12.4 VARIANT=debian
-  - VERSION=12.5 VARIANT=alpine
-  - VERSION=12.5 VARIANT=debian-slim
-  - VERSION=12.5 VARIANT=debian
-  - VERSION=12.6 VARIANT=alpine
-  - VERSION=12.6 VARIANT=debian-slim
-  - VERSION=12.6 VARIANT=debian
-  - VERSION=12.7 VARIANT=alpine
-  - VERSION=12.7 VARIANT=debian-slim
-  - VERSION=12.7 VARIANT=debian
-  - VERSION=12.8 VARIANT=alpine
-  - VERSION=12.8 VARIANT=debian-slim
-  - VERSION=12.8 VARIANT=debian
-  - VERSION=13.0 VARIANT=alpine
-  - VERSION=13.0 VARIANT=debian-slim
-  - VERSION=13.0 VARIANT=debian
+  - VERSION=develop VARIANT=alpine DATABASE=postgres
+  - VERSION=develop VARIANT=alpine DATABASE=mariadb
+  - VERSION=develop VARIANT=debian-slim DATABASE=postgres
+  - VERSION=develop VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=develop VARIANT=debian DATABASE=postgres
+  - VERSION=develop VARIANT=debian DATABASE=mariadb
+  - VERSION=10 VARIANT=alpine DATABASE=mariadb
+  - VERSION=10 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=10 VARIANT=debian DATABASE=mariadb
+  - VERSION=11 VARIANT=alpine DATABASE=mariadb
+  - VERSION=11 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=11 VARIANT=debian DATABASE=mariadb
+  - VERSION=12 VARIANT=alpine DATABASE=postgres
+  - VERSION=12 VARIANT=alpine DATABASE=mariadb
+  - VERSION=12 VARIANT=debian-slim DATABASE=postgres
+  - VERSION=12 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=12 VARIANT=debian DATABASE=postgres
+  - VERSION=12 VARIANT=debian DATABASE=mariadb
+  - VERSION=13 VARIANT=alpine DATABASE=postgres
+  - VERSION=13 VARIANT=alpine DATABASE=mariadb
+  - VERSION=13 VARIANT=debian-slim DATABASE=postgres
+  - VERSION=13 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=13 VARIANT=debian DATABASE=postgres
+  - VERSION=13 VARIANT=debian DATABASE=mariadb

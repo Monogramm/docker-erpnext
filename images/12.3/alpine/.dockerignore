@@ -1,5 +1,0 @@
-# Ignore files during docker build
-docker-compose.yml
-redis_cache.conf
-nginx.conf
-.env
