@@ -1,4 +1,4 @@
-FROM monogramm/docker-frappe:%%ERPNEXT_VERSION%%-alpine
+FROM monogramm/docker-erpnext:%%ERPNEXT_VERSION%%-alpine
 
 COPY docker_test.sh /docker_test.sh
 
