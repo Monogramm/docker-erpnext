@@ -73,13 +73,16 @@ matrix:
     - env: VERSION=develop VARIANT=alpine
     - env: VERSION=develop VARIANT=debian-slim
     - env: VERSION=develop VARIANT=debian
-    - env: VERSION=13 VARIANT=alpine
-    - env: VERSION=13 VARIANT=debian-slim
-    - env: VERSION=13 VARIANT=debian
+    - env: VERSION=13 VARIANT=alpine DATABASE=postgres
+    - env: VERSION=13 VARIANT=alpine DATABASE=mariadb
+    - env: VERSION=13 VARIANT=debian-slim DATABASE=postgres
+    - env: VERSION=13 VARIANT=debian-slim DATABASE=mariadb
+    - env: VERSION=13 VARIANT=debian DATABASE=postgres
+    - env: VERSION=13 VARIANT=debian DATABASE=mariadb
     # Stop supporting Frappe 10 and Python 2
-    - env: VERSION=10 VARIANT=alpine
-    - env: VERSION=10 VARIANT=debian-slim
-    - env: VERSION=10 VARIANT=debian
+    - env: VERSION=10 VARIANT=alpine DATABASE=mariadb
+    - env: VERSION=10 VARIANT=debian-slim DATABASE=mariadb
+    - env: VERSION=10 VARIANT=debian DATABASE=mariadb
 
 env: # Environments
   - VERSION=develop VARIANT=alpine DATABASE=postgres
