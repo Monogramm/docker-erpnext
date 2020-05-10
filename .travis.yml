@@ -9,61 +9,70 @@ branches:
   only:
     - master
 
-before_script:
+before_install:
   - env | sort
-  - dir="images/${VERSION}/${VARIANT}"
+  - export home=$(pwd)
+  - export image_dir="${home}/images/${VERSION}/${VARIANT}"
   - export DOCKER_TAG="${VERSION}-${VARIANT}-travis"
-  - export IMAGE_NAME="docker-erpnext-travis:${DOCKER_TAG}"
+  - export IMAGE_NAME="docker-erpnext:${DOCKER_TAG}"
+  - export IMAGE_ALIAS_NAME="docker-erpnext:${VERSION}"
+
+install:
+  - echo "Changing to image directory ($image_dir)"
+  - cd "$image_dir"
+  # Test container build
+  - travis_retry travis_wait 60 docker-compose -f "docker-compose.${DATABASE}.yml" build
+
+before_script:
+  - docker images
 
 script:
-  - cd "$dir"
-  # Test container build
-  - travis_retry travis_wait 60 docker-compose -f docker-compose.${DATABASE}.yml build
-  - docker images
+  - echo "Changing to image directory ($image_dir)"
+  - cd "$image_dir"
   # Test container run
-  - travis_retry docker-compose -f docker-compose.${DATABASE}.yml up -d && sleep 60
-  - docker-compose -f docker-compose.${DATABASE}.yml ps
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up" || exit 1
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up" || exit 1
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
+  - travis_retry docker-compose -f "docker-compose.${DATABASE}.yml" up -d && sleep 60
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_db"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_db" | grep "Up" || exit 1
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_app"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_web"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_web" | grep "Up" || exit 1
   - echo 'Wait until sites and apps database installed (11-12 minutes)' && travis_wait 15 sleep 720
-  - docker-compose -f docker-compose.${DATABASE}.yml ps
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up"
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up"
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up"
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_db"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_db" | grep "Up"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_app"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_app" | grep "Up"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_web"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_web" | grep "Up"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "sut"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "sut" | grep "Exit 0"
   # Test container restart
-  - docker-compose -f docker-compose.${DATABASE}.yml down
-  - travis_retry docker-compose -f docker-compose.${DATABASE}.yml up -d && sleep 60
-  - docker-compose -f docker-compose.${DATABASE}.yml ps
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_db"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_db" | grep "Up" || exit 1
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_app"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_app" | grep "Up" || exit 1
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "erpnext_web"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "erpnext_web" | grep "Up" || exit 1
+  - docker-compose -f "docker-compose.${DATABASE}.yml" down
+  - travis_retry docker-compose -f "docker-compose.${DATABASE}.yml" up -d && sleep 60
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_db"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_db" | grep "Up" || exit 1
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_app"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_app" | grep "Up" || exit 1
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "erpnext_web"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "erpnext_web" | grep "Up" || exit 1
   - echo 'Wait until tests finished (9-10 minutes)' && sleep 540
-  - docker-compose -f docker-compose.${DATABASE}.yml logs "sut"
-  - docker-compose -f docker-compose.${DATABASE}.yml ps "sut" | grep "Exit 0"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" logs "sut"
+  - docker-compose -f "docker-compose.${DATABASE}.yml" ps "sut" | grep "Exit 0"
   # Test container migrate
-  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" bench migrate --help
-  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" migrate
+  - docker-compose -f "docker-compose.${DATABASE}.yml" run --rm "erpnext_app" bench migrate --help
+  - docker-compose -f "docker-compose.${DATABASE}.yml" run --rm "erpnext_app" migrate
   # Test container backup
-  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" bench backup --help
-  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" backup && sleep 5
-  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" backup && sleep 5
-  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" backup && sleep 5
+  - docker-compose -f "docker-compose.${DATABASE}.yml" run --rm "erpnext_app" bench backup --help
+  - docker-compose -f "docker-compose.${DATABASE}.yml" run --rm "erpnext_app" backup && sleep 5
+  - docker-compose -f "docker-compose.${DATABASE}.yml" run --rm "erpnext_app" backup && sleep 5
+  - docker-compose -f "docker-compose.${DATABASE}.yml" run --rm "erpnext_app" backup && sleep 5
   # Test container restore
-  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" bench restore --help
+  - docker-compose -f "docker-compose.${DATABASE}.yml" run --rm "erpnext_app" bench restore --help
   # Test container "old" restore (file number instead of file name)
-  - docker-compose -f docker-compose.${DATABASE}.yml run --rm "erpnext_app" restore 1
+  - docker-compose -f "docker-compose.${DATABASE}.yml" run --rm "erpnext_app" restore 1
 
 notifications:
   email: false
