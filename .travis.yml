@@ -79,9 +79,12 @@ notifications:
 
 matrix:
   allow_failures:
-    - env: VERSION=develop VARIANT=alpine
-    - env: VERSION=develop VARIANT=debian-slim
-    - env: VERSION=develop VARIANT=debian
+    - env: VERSION=develop VARIANT=alpine DATABASE=postgres
+    - env: VERSION=develop VARIANT=alpine DATABASE=mariadb
+    - env: VERSION=develop VARIANT=debian-slim DATABASE=postgres
+    - env: VERSION=develop VARIANT=debian-slim DATABASE=mariadb
+    - env: VERSION=develop VARIANT=debian DATABASE=postgres
+    - env: VERSION=develop VARIANT=debian DATABASE=mariadb
     - env: VERSION=13 VARIANT=alpine DATABASE=postgres
     - env: VERSION=13 VARIANT=alpine DATABASE=mariadb
     - env: VERSION=13 VARIANT=debian-slim DATABASE=postgres
