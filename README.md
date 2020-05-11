@@ -45,18 +45,21 @@ Open Source ERP built for the web.
     -   `develop-alpine` `develop`
     -   `develop-debian`
     -   `develop-debian-slim`
+
+-   ERPNext 13
+    -   `13-alpine` `13`
+    -   `13-debian`
+    -   `13-debian-slim`
+
 -   ERPNext 12
     -   `12-alpine` `12` `alpine` `latest`
     -   `12-debian` `debian`
     -   `12-debian-slim` `debian-slim`
+
 -   ERPNext 11
     -   `11-alpine` `11`
     -   `11-debian`
     -   `11-debian-slim`
--   ERPNext 10 (branch 10.x.x for latest bug fixes)
-    -   `10-alpine` `10`
-    -   `10-debian`
-    -   `10-debian-slim`
 
 ## How to run this image ?
 

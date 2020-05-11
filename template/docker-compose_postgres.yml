@@ -37,7 +37,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
+    #image: monogramm/docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
     container_name: erpnext_app
     command: app
     #restart: always
@@ -48,11 +48,14 @@ services:
     links:
       - erpnext_db
     environment:
+      # Docker setup
+      - DOCKER_GUNICORN_TIMEOUT=600
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
       - FRAPPE_APP_RESET=1
       - FRAPPE_DEFAULT_PROTOCOL=http://
       - FRAPPE_DEFAULT_SITE=${ERPNEXT_SITE}
+      - FRAPPE_SOCKETIO_PORT=3000
       - FRAPPE_LOGGING=1
       - DEVELOPER_MODE=0
       - ALLOW_TESTS=1
@@ -122,7 +125,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
+    #image: monogramm/docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
     container_name: erpnext_scheduler
     #restart: always
     depends_on:
@@ -141,7 +144,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
+    #image: monogramm/docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
     container_name: erpnext_worker_default
     #restart: always
     depends_on:
@@ -160,7 +163,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
+    #image: monogramm/docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
     container_name: erpnext_worker_long
     #restart: always
     depends_on:
@@ -179,7 +182,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
+    #image: monogramm/docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
     container_name: erpnext_worker_short
     #restart: always
     depends_on:
@@ -198,7 +201,7 @@ services:
     # For development or CI, build from local Dockerfile
     build: ./
     # For production, download prebuilt image
-    #image: monogramm:docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
+    #image: monogramm/docker-erpnext:%%ERPNEXT_VERSION%%-%%VARIANT%% 
     container_name: erpnext_socketio
     #restart: always
     ports:
@@ -218,17 +221,25 @@ services:
   erpnext_redis_cache:
     image: redis:alpine
     container_name: erpnext_redis_cache
+    command: ["redis-server","/etc/conf.d/redis.conf"]
     #restart: always
     volumes:
       - ./services/erpnext/conf/redis_cache.conf:/etc/conf.d/redis.conf:ro
-    command: ["redis-server","/etc/conf.d/redis.conf"]
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 
   erpnext_redis_queue:
     image: redis:alpine
     container_name: erpnext_redis_queue
     #restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
 
   erpnext_redis_socketio:
     image: redis:alpine
     container_name: erpnext_redis_socketio
     #restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
