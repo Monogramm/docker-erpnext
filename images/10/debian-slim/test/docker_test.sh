@@ -79,7 +79,7 @@ if [ -n "${FRAPPE_APP_TO_TEST}" ]; then
 
     echo "Preparing Frappe application '${FRAPPE_APP_TO_TEST}' tests..."
 
-    bench set-config allow_tests true
+    bench set-config allow_tests true -g
 
     bench doctor
     bench enable-scheduler
