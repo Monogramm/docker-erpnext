@@ -17,7 +17,7 @@
 ##
 FROM monogramm/docker-frappe:12-debian-slim
 
-ARG VERSION=v12.10.0
+ARG VERSION=v12.10.1
 
 # Build environment variables
 ENV ERPNEXT_BRANCH=${VERSION} \
