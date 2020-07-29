@@ -36,7 +36,7 @@ RUN set -ex; \
     sudo ./env/bin/pip install \
         ldap3 \
     ; \
-    sudo apk add py3-nympy cython;
+    sudo apk add py3-nympy cython
 
 VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
 
