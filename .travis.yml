@@ -21,7 +21,7 @@ install:
   - echo "Changing to image directory ($image_dir)"
   - cd "$image_dir"
   # Test container build
-  - travis_retry travis_wait 60 docker-compose -f "docker-compose.${DATABASE}.yml" build
+  - travis_retry travis_wait 180 docker-compose -f "docker-compose.${DATABASE}.yml" build
 
 before_script:
   - docker images
