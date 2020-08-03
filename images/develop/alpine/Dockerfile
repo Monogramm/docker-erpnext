@@ -38,7 +38,7 @@ RUN set -ex; \
         cython \
     ; \
     sed -i -e 's/v[[:digit:]]..*\//edge\//g' /etc/apk/repositories; \
-    apk upgrade --update-cache --available
+    apk upgrade --update-cache --available; \
     sudo apk add python3 python3-dev py3-pandas py3-numpy cython py3-distutils-extra
 
 VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
