@@ -36,8 +36,8 @@ RUN set -ex; \
     sudo ./env/bin/pip%%PIP_VERSION%% install \
         ldap3 \
         cython \
-    ;
-    apk add python3 python3-dev py3-numpy cython py3-distutils-extra
+    ; \
+    sudo apk add python3 python3-dev py3-numpy cython py3-distutils-extra
 
 VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
 
