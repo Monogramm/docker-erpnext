@@ -35,11 +35,7 @@ RUN set -ex; \
     bench get-app --branch "$ERPNEXT_BRANCH" erpnext https://github.com/frappe/erpnext; \
     sudo ./env/bin/pip install \
         ldap3 \
-        cython \
-    ; \
-    sudo sed -i -e 's/v[[:digit:]]..*\//edge\//g' /etc/apk/repositories; \
-    sudo apk upgrade --update-cache --available; \
-    sudo apk add python3 python3-dev py3-pandas py3-numpy cython py3-distutils-extra
+    ;
 
 VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
 
