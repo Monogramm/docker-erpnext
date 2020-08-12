@@ -58,7 +58,6 @@ for latest in "${latests[@]}"; do
 			# Copy the docker files
 			for name in redis_cache.conf nginx.conf .env; do
 				cp "template/$name" "$dir/$name"
-				chmod 755 "$dir/$name"
 				sed -i \
 					-e 's/{{ NGINX_SERVER_NAME }}/localhost/g' \
 					"$dir/$name"
