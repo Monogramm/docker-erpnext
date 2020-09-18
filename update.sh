@@ -23,7 +23,7 @@ min_version=10
 
 dockerRepo="monogramm/docker-erpnext"
 latests=(
-	13.0.0-beta.1
+	13.0.0-beta.4
 	$( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV )
