@@ -32,10 +32,12 @@ RUN set -ex; \
         "/home/$FRAPPE_USER"/frappe-bench/logs \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
     ; \
-    bench get-app --branch "$ERPNEXT_BRANCH" erpnext https://github.com/frappe/erpnext; \
-    sudo ./env/bin/pip install \
-        ldap3 \
-    ;
+    sudo apk add python3-dev py3-setuptools; \
+    export PATH=/home/$FRAPPE_USER/.local/bin:$PATH; \
+    pip install Cython==0.29.10; \
+    pip install numpy==1.17.4; \
+    pip install pandas==0.24.2; \
+    bench get-app --branch "$ERPNEXT_BRANCH" erpnext https://github.com/frappe/erpnext
 
 VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
 

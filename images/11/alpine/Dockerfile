@@ -17,7 +17,7 @@
 ##
 FROM monogramm/docker-frappe:11-alpine
 
-ARG VERSION=v11.1.75
+ARG VERSION=v11.1.77
 
 # Build environment variables
 ENV ERPNEXT_BRANCH=${VERSION} \
@@ -32,10 +32,12 @@ RUN set -ex; \
         "/home/$FRAPPE_USER"/frappe-bench/logs \
         "/home/$FRAPPE_USER"/frappe-bench/logs/* \
     ; \
-    bench get-app --branch "$ERPNEXT_BRANCH" erpnext https://github.com/frappe/erpnext; \
-    sudo ./env/bin/pip3 install \
-        ldap3 \
-    ;
+    sudo apk add python3-dev py3-setuptools; \
+    export PATH=/home/$FRAPPE_USER/.local/bin:$PATH; \
+    pip3 install Cython==0.29.10; \
+    pip3 install numpy==1.17.4; \
+    pip3 install pandas==0.24.2; \
+    bench get-app --branch "$ERPNEXT_BRANCH" erpnext https://github.com/frappe/erpnext
 
 VOLUME /home/$FRAPPE_USER/frappe-bench/apps/erpnext/erpnext/public
 

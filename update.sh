@@ -21,13 +21,13 @@ function version_greater_or_equal() {
 
 min_version=10
 
-dockerRepo="monogramm/docker-frappe"
+dockerRepo="monogramm/docker-erpnext"
 latests=(
-	13.0.0-beta.1
+	13.0.0-beta.4
 	$( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV )
-	11.1.75
+	11.1.77
 	10.x.x
 	develop
 )
@@ -58,7 +58,6 @@ for latest in "${latests[@]}"; do
 			# Copy the docker files
 			for name in redis_cache.conf nginx.conf .env; do
 				cp "template/$name" "$dir/$name"
-				chmod 755 "$dir/$name"
 				sed -i \
 					-e 's/{{ NGINX_SERVER_NAME }}/localhost/g' \
 					"$dir/$name"

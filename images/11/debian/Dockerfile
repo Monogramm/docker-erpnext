@@ -17,7 +17,7 @@
 ##
 FROM monogramm/docker-frappe:11-debian
 
-ARG VERSION=v11.1.75
+ARG VERSION=v11.1.77
 
 # Build environment variables
 ENV ERPNEXT_BRANCH=${VERSION} \
