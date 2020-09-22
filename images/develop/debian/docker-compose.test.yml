@@ -44,7 +44,7 @@ services:
       - erpnext_db
     environment:
       # Docker setup
-      - DOCKER_DB_ALLOWED_HOSTS=172.%.%.%
+      - DOCKER_DB_ALLOWED_HOSTS=
       - DOCKER_GUNICORN_TIMEOUT=600
       # Frappe setup
       - FRAPPE_APP_INIT=erpnext
