@@ -101,8 +101,11 @@ env: # Environments
   - VERSION=10 VARIANT=alpine DATABASE=mariadb
   - VERSION=10 VARIANT=debian-slim DATABASE=mariadb
   - VERSION=10 VARIANT=debian DATABASE=mariadb
+  - VERSION=11 VARIANT=alpine DATABASE=postgres
   - VERSION=11 VARIANT=alpine DATABASE=mariadb
+  - VERSION=11 VARIANT=debian-slim DATABASE=postgres
   - VERSION=11 VARIANT=debian-slim DATABASE=mariadb
+  - VERSION=11 VARIANT=debian DATABASE=postgres
   - VERSION=11 VARIANT=debian DATABASE=mariadb
   - VERSION=12 VARIANT=alpine DATABASE=postgres
   - VERSION=12 VARIANT=alpine DATABASE=mariadb

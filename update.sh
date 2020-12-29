@@ -23,11 +23,11 @@ min_version=10
 
 dockerRepo="monogramm/docker-erpnext"
 latests=(
-	13.0.0-beta.4
+	13.0.0-beta.7
 	$( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV )
-	11.1.77
+	version-11-hotfix
 	10.x.x
 	develop
 )
@@ -42,6 +42,9 @@ travisEnv=
 for latest in "${latests[@]}"; do
 	version=$(echo "$latest" | cut -d. -f1-2)
 	major=$(echo "$latest" | cut -d. -f1-1)
+	if [ "$latest" = "version-11-hotfix" ]; then
+		major=11
+	fi
 
 	# Only add versions >= "$min_version"
 	if version_greater_or_equal "$version" "$min_version"; then
@@ -78,7 +81,7 @@ for latest in "${latests[@]}"; do
 			cp -r "template/docker-compose.test.yml" "$dir/docker-compose.test.yml"
 
 			# Replace the variables.
-			if [ "$latest" = "develop" ]; then
+			if [ "$latest" = "develop" ] || [ "$latest" = "version-11-hotfix" ]; then
 				sed -ri -e '
 					s/%%VARIANT%%/'"$variant"'/g;
 					s/%%VERSION%%/'"$latest"'/g;
@@ -105,6 +108,16 @@ for latest in "${latests[@]}"; do
 				' "$dir/Dockerfile" "$dir/test/Dockerfile" "$dir/docker-compose."*.yml
 			fi
 
+			# Create a list of "alias" tags for DockerHub post_push
+			if [ "$latest" = 'develop' ]; then
+				echo "develop-$variant " > "$dir/.dockertags"
+			elif [ "$latest" = 'version-11-hotfix' ]; then
+				echo "11-$variant " > "$dir/.dockertags"
+			else
+				echo "$latest-$variant $version-$variant $major-$variant " > "$dir/.dockertags"
+			fi
+
+			# Add Travis-CI env var
 			travisEnv='\n  - VERSION='"$major"' VARIANT='"$variant"' DATABASE=mariadb'"$travisEnv"
 			case $latest in
 				10.*|11.*) echo "Postgres not supported for $latest";;

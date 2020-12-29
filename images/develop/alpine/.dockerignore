@@ -1,5 +1,6 @@
 # Ignore files during docker build
 docker-compose.yml
+.dockertags
 redis_cache.conf
 nginx.conf
 .env
