@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# See documentation for details:
+# https://docs.docker.com/docker-hub/builds/advanced/
+
+if [ -f ./.dockertags ]; then
+    for tag in $(cat ./.dockertags); do
+        if [ ! "${tag}" = "${DOCKER_TAG}" ]; then
+            docker tag "$IMAGE_NAME" "$DOCKER_REPO:$tag"
+            docker push "$DOCKER_REPO:$tag"
+        fi
+    done
+fi
