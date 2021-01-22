@@ -124,7 +124,7 @@ for latest in "${latests[@]}"; do
 				fi
 			elif [ "$latest" = "$dockerLatest" ]; then
 				if [ "$variant" = 'alpine' ]; then
-					echo "$latest-$variant $version-$variant $major-$variant $variant $latest $version $major " > "$dir/.dockertags"
+					echo "$latest-$variant $version-$variant $major-$variant $variant $latest $version $major latest " > "$dir/.dockertags"
 				else
 					echo "$latest-$variant $version-$variant $major-$variant $variant " > "$dir/.dockertags"
 				fi
