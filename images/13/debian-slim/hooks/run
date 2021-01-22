@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Custom script to run locally DockerHub hooks
+# See documentation for details:
+# https://docs.docker.com/docker-hub/builds/advanced/
+
+echo "Custom script to run locally DockerHub hooks..."
+set -e
+
+export SOURCE_BRANCH
+SOURCE_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+export SOURCE_COMMIT
+SOURCE_COMMIT=$(git rev-parse --short HEAD)
+export COMMIT_MSG
+COMMIT_MSG=$(git log -1 --format=%s)
+
+export DOCKER_REPO=
+export DOCKERFILE_PATH=Dockerfile
+export DOCKER_TAG=
+export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
+
+# Execute hooks in following order
+for hook in pre_build build post_build pre_test test post_test; do
+    if [ -f "./hooks/${hook}" ]; then
+        echo "Executing ${hook} hook..."
+        "./hooks/${hook}"
+    fi
+done
+
+echo "DockerHub hooks finished"

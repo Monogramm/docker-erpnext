@@ -44,7 +44,7 @@ echo "Checking apps installed..."
 bench list-apps
 BENCH_LIST_APPS=$(bench list-apps)
 
-for app in erpnext; do
+for app in frappe erpnext; do
     if ! echo "$BENCH_LIST_APPS" | grep "$app"; then
         echo "$app is not installed!"
         exit 16
@@ -183,6 +183,6 @@ bench run-ui-tests --help
 
 ################################################################################
 # Success
-echo 'Frappe app '${FRAPPE_APP_TO_TEST}' tests finished'
+echo "Frappe app '${FRAPPE_APP_TO_TEST}' tests finished"
 echo 'Check the CI reports and logs for details.'
 exit 0
