@@ -20,11 +20,11 @@ function version_greater_or_equal() {
 }
 
 min_version=10
-dockerLatest='13.0.0-beta.7'
+dockerLatest='13.0.0-beta.10'
 
 dockerRepo="monogramm/docker-erpnext"
 latests=(
-	13.0.0-beta.7
+	13.0.0-beta.10
 	$( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV )
