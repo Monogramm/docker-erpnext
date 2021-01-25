@@ -20,10 +20,11 @@ function version_greater_or_equal() {
 }
 
 min_version=10
+dockerLatest='13.0.0-beta.10'
 
 dockerRepo="monogramm/docker-erpnext"
 latests=(
-	13.0.0-beta.7
+	13.0.0-beta.10
 	$( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV )
@@ -110,11 +111,29 @@ for latest in "${latests[@]}"; do
 
 			# Create a list of "alias" tags for DockerHub post_push
 			if [ "$latest" = 'develop' ]; then
-				echo "develop-$variant " > "$dir/.dockertags"
+				if [ "$variant" = 'alpine' ]; then
+					echo "develop-$variant develop " > "$dir/.dockertags"
+				else
+					echo "develop-$variant " > "$dir/.dockertags"
+				fi
 			elif [ "$latest" = 'version-11-hotfix' ]; then
-				echo "11-$variant " > "$dir/.dockertags"
+				if [ "$variant" = 'alpine' ]; then
+					echo "11-$variant 11 " > "$dir/.dockertags"
+				else
+					echo "11-$variant " > "$dir/.dockertags"
+				fi
+			elif [ "$latest" = "$dockerLatest" ]; then
+				if [ "$variant" = 'alpine' ]; then
+					echo "$latest-$variant $version-$variant $major-$variant $variant $latest $version $major latest " > "$dir/.dockertags"
+				else
+					echo "$latest-$variant $version-$variant $major-$variant $variant " > "$dir/.dockertags"
+				fi
 			else
-				echo "$latest-$variant $version-$variant $major-$variant " > "$dir/.dockertags"
+				if [ "$variant" = 'alpine' ]; then
+					echo "$latest-$variant $version-$variant $major-$variant $latest $version $major " > "$dir/.dockertags"
+				else
+					echo "$latest-$variant $version-$variant $major-$variant " > "$dir/.dockertags"
+				fi
 			fi
 
 			# Add Travis-CI env var

@@ -1,4 +1,8 @@
-version: "2"
+version: "2.3"
+
+volumes:
+  erpnext_sites:
+  erpnext_logs:
 
 services:
   # https://docs.docker.com/docker-hub/builds/automated-testing/
@@ -76,8 +80,8 @@ services:
       - REDIS_QUEUE_HOST=erpnext_redis_queue
       - REDIS_SOCKETIO_HOST=erpnext_redis_socketio
     volumes:
-      - /srv/erpnext/frappe/sites:/home/frappe/frappe-bench/sites
-      - /srv/erpnext/frappe/logs:/home/frappe/frappe-bench/logs
+      - erpnext_sites:/home/frappe/frappe-bench/sites
+      - erpnext_logs:/home/frappe/frappe-bench/logs
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
 
