@@ -14,9 +14,9 @@ SOURCE_COMMIT=$(git rev-parse --short HEAD)
 export COMMIT_MSG
 COMMIT_MSG=$(git log -1 --format=%s)
 
-export DOCKER_REPO=
+export DOCKER_REPO=monogramm/docker-erpnext
 export DOCKERFILE_PATH=Dockerfile
-export DOCKER_TAG=
+export DOCKER_TAG=develop
 export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
 
 # Execute hooks in following order
