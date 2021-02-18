@@ -3,5 +3,5 @@
 # See documentation for details:
 # https://docs.docker.com/docker-hub/builds/advanced/
 
-echo 'Removing persisted data...'
-rm -rf '/srv/dokos/dodock/sites' '/srv/dokos/dodock/logs'
+#echo 'Removing persisted data...'
+#rm -rf '/srv/erpnext/frappe/sites' '/srv/erpnext/frappe/logs'
