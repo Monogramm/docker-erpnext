@@ -41,25 +41,25 @@ Open Source ERP built for the web.
 
 <https://hub.docker.com/r/monogramm/docker-erpnext/>
 
--   ERPNext develop branch
-    -   `develop-alpine` `develop`
-    -   `develop-debian`
-    -   `develop-debian-slim`
+<!-- >Docker Tags -->
 
--   ERPNext 13
-    -   `13-alpine` `13`
-    -   `13-debian`
-    -   `13-debian-slim`
+-   13.0.0-beta.11-debian 13.0-debian 13-debian  (`images/13/debian/Dockerfile`)
+-   13.0.0-beta.11-debian-slim 13.0-debian-slim 13-debian-slim  (`images/13/debian-slim/Dockerfile`)
+-   13.0.0-beta.11-alpine 13.0-alpine 13-alpine 13.0.0-beta.11 13.0 13  (`images/13/alpine/Dockerfile`)
+-   12.18.0-debian 12.18-debian 12-debian  (`images/12/debian/Dockerfile`)
+-   12.18.0-debian-slim 12.18-debian-slim 12-debian-slim  (`images/12/debian-slim/Dockerfile`)
+-   12.18.0-alpine 12.18-alpine 12-alpine 12.18.0 12.18 12  (`images/12/alpine/Dockerfile`)
+-   version-11-hotfix-debian 11.x-debian 11-debian  (`images/11/debian/Dockerfile`)
+-   version-11-hotfix-debian-slim 11.x-debian-slim 11-debian-slim  (`images/11/debian-slim/Dockerfile`)
+-   version-11-hotfix-alpine 11.x-alpine 11-alpine version-11-hotfix 11.x 11  (`images/11/alpine/Dockerfile`)
+-   10.x.x-debian 10.x-debian 10-debian  (`images/10/debian/Dockerfile`)
+-   10.x.x-debian-slim 10.x-debian-slim 10-debian-slim  (`images/10/debian-slim/Dockerfile`)
+-   10.x.x-alpine 10.x-alpine 10-alpine 10.x.x 10.x 10  (`images/10/alpine/Dockerfile`)
+-   develop-debian  (`images/develop/debian/Dockerfile`)
+-   develop-debian-slim  (`images/develop/debian-slim/Dockerfile`)
+-   develop-alpine develop  (`images/develop/alpine/Dockerfile`)
 
--   ERPNext 12
-    -   `12-alpine` `12` `alpine` `latest`
-    -   `12-debian` `debian`
-    -   `12-debian-slim` `debian-slim`
-
--   ERPNext 11
-    -   `11-alpine` `11`
-    -   `11-debian`
-    -   `11-debian-slim`
+<!-- <Docker Tags -->
 
 ## How to run this image ?
 

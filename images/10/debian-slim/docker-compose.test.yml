@@ -1,8 +1,9 @@
-version: "2.3"
+version: "2.4"
 
 volumes:
   erpnext_sites:
   erpnext_logs:
+  erpnext_db:
 
 services:
   # https://docs.docker.com/docker-hub/builds/automated-testing/
@@ -118,7 +119,7 @@ services:
       - MYSQL_USER=${ERPNEXT_DB_NAME}
       - MYSQL_PASSWORD=${ERPNEXT_DB_PWD}
     volumes:
-      - /srv/erpnext/db:/var/lib/mysql
+      - erpnext_db:/var/lib/mysql
 
   erpnext_scheduler:
     image: ${IMAGE_NAME}

@@ -20,11 +20,12 @@ function version_greater_or_equal() {
 }
 
 min_version=10
-dockerLatest='13.0.0-beta.10'
+dockerLatest='13.0.0-beta.11'
+dockerDefaultVariant='alpine'
 
 dockerRepo="monogramm/docker-erpnext"
 latests=(
-	13.0.0-beta.10
+	13.0.0-beta.11
 	$( curl -fsSL 'https://api.github.com/repos/frappe/erpnext/tags' |tac|tac| \
 	grep -oE '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+' | \
 	sort -urV )
@@ -36,14 +37,16 @@ latests=(
 # Remove existing images
 echo "reset docker images"
 rm -rf ./images/
-mkdir -p ./images
+mkdir ./images/
 
 echo "update docker images"
+readmeTags=
 travisEnv=
 for latest in "${latests[@]}"; do
 	version=$(echo "$latest" | cut -d. -f1-2)
 	major=$(echo "$latest" | cut -d. -f1-1)
 	if [ "$latest" = "version-11-hotfix" ]; then
+		version=11.x
 		major=11
 	fi
 
@@ -109,32 +112,35 @@ for latest in "${latests[@]}"; do
 				' "$dir/Dockerfile" "$dir/test/Dockerfile" "$dir/docker-compose."*.yml
 			fi
 
+			sed -ri -e '
+				s|DOCKER_TAG=.*|DOCKER_TAG='"$version"'|g;
+				s|DOCKER_REPO=.*|DOCKER_REPO='"$dockerRepo"'|g;
+				' "$dir/hooks/run"
+
 			# Create a list of "alias" tags for DockerHub post_push
-			if [ "$latest" = 'develop' ]; then
-				if [ "$variant" = 'alpine' ]; then
-					echo "develop-$variant develop " > "$dir/.dockertags"
+			if [ "$version" = "$dockerLatest" ]; then
+				if [ "$variant" = "$dockerDefaultVariant" ]; then
+					export DOCKER_TAGS="$latest-$variant $version-$variant $major-$variant $variant $latest $version $major latest "
 				else
-					echo "develop-$variant " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant $version-$variant $major-$variant $variant "
 				fi
-			elif [ "$latest" = 'version-11-hotfix' ]; then
-				if [ "$variant" = 'alpine' ]; then
-					echo "11-$variant 11 " > "$dir/.dockertags"
+			elif [ "$version" = "$latest" ]; then
+				if [ "$variant" = "$dockerDefaultVariant" ]; then
+					export DOCKER_TAGS="$latest-$variant $latest "
 				else
-					echo "11-$variant " > "$dir/.dockertags"
-				fi
-			elif [ "$latest" = "$dockerLatest" ]; then
-				if [ "$variant" = 'alpine' ]; then
-					echo "$latest-$variant $version-$variant $major-$variant $variant $latest $version $major latest " > "$dir/.dockertags"
-				else
-					echo "$latest-$variant $version-$variant $major-$variant $variant " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant "
 				fi
 			else
-				if [ "$variant" = 'alpine' ]; then
-					echo "$latest-$variant $version-$variant $major-$variant $latest $version $major " > "$dir/.dockertags"
+				if [ "$variant" = "$dockerDefaultVariant" ]; then
+					export DOCKER_TAGS="$latest-$variant $version-$variant $major-$variant $latest $version $major "
 				else
-					echo "$latest-$variant $version-$variant $major-$variant " > "$dir/.dockertags"
+					export DOCKER_TAGS="$latest-$variant $version-$variant $major-$variant "
 				fi
 			fi
+			echo "${DOCKER_TAGS} " > "$dir/.dockertags"
+
+			# Add README tags
+			readmeTags="$readmeTags\n-   ${DOCKER_TAGS} (\`$dir/Dockerfile\`)"
 
 			# Add Travis-CI env var
 			travisEnv='\n  - VERSION='"$major"' VARIANT='"$variant"' DATABASE=mariadb'"$travisEnv"
@@ -153,6 +159,11 @@ for latest in "${latests[@]}"; do
 	fi
 
 done
+
+# update README.md
+sed '/^<!-- >Docker Tags -->/,/^<!-- <Docker Tags -->/{/^<!-- >Docker Tags -->/!{/^<!-- <Docker Tags -->/!d}}' README.md > README.md.tmp
+sed -e "s|<!-- >Docker Tags -->|<!-- >Docker Tags -->\n$readmeTags\n|g" README.md.tmp > README.md
+rm README.md.tmp
 
 # update .travis.yml
 travis="$(awk -v 'RS=\n\n' '$1 == "env:" && $2 == "#" && $3 == "Environments" { $0 = "env: # Environments'"$travisEnv"'" } { printf "%s%s", $0, RS }' .travis.yml)"

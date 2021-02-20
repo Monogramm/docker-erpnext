@@ -14,17 +14,21 @@ SOURCE_COMMIT=$(git rev-parse --short HEAD)
 export COMMIT_MSG
 COMMIT_MSG=$(git log -1 --format=%s)
 
-export DOCKER_REPO=
+export DOCKER_REPO=monogramm/docker-erpnext
 export DOCKERFILE_PATH=Dockerfile
-export DOCKER_TAG=
+export DOCKER_TAG=12.18
 export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
 
-# Execute hooks in following order
-for hook in pre_build build post_build pre_test test post_test; do
-    if [ -f "./hooks/${hook}" ]; then
-        echo "Executing ${hook} hook..."
-        "./hooks/${hook}"
-    fi
+# Execute hooks in given order
+IFS=',' read -ra STEPS <<< "${1:-build,test}"
+for step in "${STEPS[@]}"
+do
+    for hook in "pre_${step}" "${step}" "post_${step}"; do
+        if [ -f "./hooks/${hook}" ]; then
+            echo "Executing ${hook} hook..."
+            "./hooks/${hook}"
+        fi
+    done
 done
 
 echo "DockerHub hooks finished"
