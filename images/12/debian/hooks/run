@@ -16,7 +16,7 @@ COMMIT_MSG=$(git log -1 --format=%s)
 
 export DOCKER_REPO=monogramm/docker-erpnext
 export DOCKERFILE_PATH=Dockerfile
-export DOCKER_TAG=12.18
+export DOCKER_TAG=12.22
 export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
 
 # Execute hooks in given order
