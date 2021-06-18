@@ -17,7 +17,12 @@ COMMIT_MSG=$(git log -1 --format=%s)
 export DOCKER_REPO=
 export DOCKERFILE_PATH=Dockerfile
 export DOCKER_TAG=
-export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
+
+if [ -n "${DOCKER_REGISTRY}" ]; then
+    export IMAGE_NAME=${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_TAG}
+else
+    export IMAGE_NAME=${DOCKER_REPO}:${DOCKER_TAG}
+fi
 
 # Execute hooks in given order
 IFS=',' read -ra STEPS <<< "${1:-build,test}"

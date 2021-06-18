@@ -5,6 +5,7 @@ on:
   pull_request:
   push:
     branches:
+      - main
       - master
       - develop
 
@@ -12,19 +13,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        version: ['11', '12', '13']
-        variant: ['alpine', 'debian', 'debian-slim']
+        version: ['develop', '10', '11', '12', '13', ]
+        variant: ['alpine', 'buster', 'slim-buster']
+        bench: ['master']
 
     steps:
       - name: Check Out Repo
         uses: actions/checkout@v2
 
-      - name: Execute CI hooks
+      - name: Execute CI build hooks
         id: docker_build
         run: |
-          cd ./images/${{ matrix.version }}/${{ matrix.variant }}/
-          ./hooks/run
+          cd ./images/${{ matrix.version }}-${{ matrix.bench }}/${{ matrix.variant }}/
+          # Export variables to build to GitHub Container Registry
+          #export DOCKER_REGISTRY=ghcr.io
+          ./hooks/run build
 
       - name: Display docker images
         run: docker images
+
+      - name: Execute CI test hooks
+        id: docker_test
+        run: |
+          cd ./images/${{ matrix.version }}-${{ matrix.bench }}/${{ matrix.variant }}/
+          ./hooks/run test
+
+      - name: Execute CI push hooks
+        id: docker_push
+        if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ) }}
+        run: |
+          cd ./images/${{ matrix.version }}-${{ matrix.bench }}/${{ matrix.variant }}/
+          # Export variables to login and push to GitHub Container Registry
+          #export DOCKER_REGISTRY=ghcr.io
+          #export DOCKER_LOGIN=${{ github.repository_owner }}
+          #export DOCKER_PASSWORD=${{ secrets.GITHUB_REGISTRY_TOKEN }}
+          # Export variables to login and push to DockerHub Registry
+          export DOCKER_LOGIN=${{ secrets.DOCKERHUB_REGISTRY_LOGIN }}
+          export DOCKER_PASSWORD=${{ secrets.DOCKERHUB_REGISTRY_TOKEN }}
+          ./hooks/run push
