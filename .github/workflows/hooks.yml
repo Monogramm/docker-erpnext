@@ -16,8 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         version: ['develop', '11', '12', '13', ]
-        variant: ['alpine', 'buster', 'slim-buster']
-        bench: ['master']
+        variant: ['alpine', 'debian', 'debian-slim']
 
     steps:
       - name: Check Out Repo
@@ -26,7 +25,7 @@ jobs:
       - name: Execute CI build hooks
         id: docker_build
         run: |
-          cd ./images/${{ matrix.version }}-${{ matrix.bench }}/${{ matrix.variant }}/
+          cd ./images/${{ matrix.version }}/${{ matrix.variant }}/
           # Export variables to build to GitHub Container Registry
           #export DOCKER_REGISTRY=ghcr.io
           ./hooks/run build
@@ -37,14 +36,14 @@ jobs:
       - name: Execute CI test hooks
         id: docker_test
         run: |
-          cd ./images/${{ matrix.version }}-${{ matrix.bench }}/${{ matrix.variant }}/
+          cd ./images/${{ matrix.version }}/${{ matrix.variant }}/
           ./hooks/run test
 
       - name: Execute CI push hooks
         id: docker_push
         if: ${{ github.event_name == 'push' && ( github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' ) }}
         run: |
-          cd ./images/${{ matrix.version }}-${{ matrix.bench }}/${{ matrix.variant }}/
+          cd ./images/${{ matrix.version }}/${{ matrix.variant }}/
           # Export variables to login and push to GitHub Container Registry
           #export DOCKER_REGISTRY=ghcr.io
           #export DOCKER_LOGIN=${{ github.repository_owner }}
