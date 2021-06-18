@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# See documentation for details:
-# https://docs.docker.com/docker-hub/builds/advanced/
-
-#echo 'Set permissions for persisted data...'
-#mkdir -p '/srv/erpnext/frappe/sites' '/srv/erpnext/frappe/logs'
-#chown "1000:1000" '/srv/erpnext/frappe/sites' '/srv/erpnext/frappe/logs'
-#chmod 777 '/srv/erpnext/frappe/sites' '/srv/erpnext/frappe/logs'

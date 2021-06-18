@@ -16,7 +16,7 @@ COMMIT_MSG=$(git log -1 --format=%s)
 
 export DOCKER_REPO=monogramm/docker-erpnext
 export DOCKERFILE_PATH=Dockerfile
-export DOCKER_TAG=13.0
+export DOCKER_TAG=13.5
 
 if [ -n "${DOCKER_REGISTRY}" ]; then
     export IMAGE_NAME=${DOCKER_REGISTRY}/${DOCKER_REPO}:${DOCKER_TAG}
