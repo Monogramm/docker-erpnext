@@ -17,7 +17,7 @@
 ##
 FROM monogramm/docker-frappe:12-alpine
 
-ARG VERSION=v12.18.0
+ARG VERSION=v12.22.0
 
 # Build environment variables
 ENV ERPNEXT_BRANCH=${VERSION} \
